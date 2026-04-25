@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Support - LuxeMart</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+/* FORM CARD */
+.support-card{
+  background:#1e1e1e;
+  padding:25px;
+  border-radius:12px;
+  width:350px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+.support-card h2{
+  text-align:center;
+  margin-bottom:20px;
+  color:#25D366;
+}
+
+/* INPUT */
+.input-group{
+  margin-bottom:15px;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:5px;
+  font-size:0.9rem;
+}
+
+.input-group input,
+.input-group textarea{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:6px;
+  outline:none;
+}
+
+textarea{
+  resize:none;
+  height:80px;
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:12px;
+  background:#25D366;
+  border:none;
+  border-radius:6px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#1ebe5d;
+}
+
+/* BACK BUTTON */
+.back-btn{
+  margin-top:10px;
+  text-align:center;
+  font-size:0.85rem;
+  cursor:pointer;
+  color:#aaa;
+}
+
+.back-btn:hover{
+  color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="support-card">
+  <h2><i class="fa-brands fa-whatsapp"></i> WhatsApp Support</h2>
+
+  <div class="input-group">
+    <label>Your Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+  </div>
+
+  <div class="input-group">
+    <label>Mobile Number</label>
+    <input type="text" id="mobile" placeholder="Enter your mobile number">
+  </div>
+
+  <div class="input-group">
+    <label>Your Query</label>
+    <textarea id="query" placeholder="Describe your issue..."></textarea>
+  </div>
+
+  <button class="btn" onclick="sendWhatsApp()">
+    <i class="fa-brands fa-whatsapp"></i> Contact on WhatsApp
+  </button>
+
+  <div class="back-btn" onclick="goBack()">← Back to Home</div>
+  <p style="font-size:12px;color:#aaa;text-align:center;margin-top:10px;">
+After clicking, press SEND in WhatsApp to contact support.
+</p>
+</div>
+
+<script>
+
+function sendWhatsApp(){
+
+  let name = document.getElementById("name").value;
+  let mobile = document.getElementById("mobile").value;
+  let query = document.getElementById("query").value;
+
+  if(name==="" || mobile==="" || query===""){
+    alert("Please fill all fields!");
+    return;
+  }
+
+  // Replace with YOUR WhatsApp number
+  let supportNumber = "8010116320";
+
+  let message = `Hello LuxeMart Support 👋%0A
+Name: ${name}%0A
+Mobile: ${mobile}%0A
+Query: ${query}`;
+
+  let url = `https://wa.me/${supportNumber}?text=${message}`;
+
+  window.open(url, "_blank");
+}
+
+function goBack(){
+  window.location.href = "index.html"; // change if needed
+}
+
+</script>
+
+</body>
+</html>

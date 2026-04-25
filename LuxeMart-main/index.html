@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeMart — Premium Fashion & Lifestyle</title>
+  <meta name="description"
+    content="India's premium fashion & lifestyle destination. Shop men, women, kids, electronics, beauty and more with exclusive deals.">
+  <link rel="stylesheet" href="index.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body data-theme="dark">
+
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span id="toast-msg">Added to cart!</span>
+    <button class="toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="logo" href="#">Luxe<span>Mart</span></a>
+      <div class="nav-actions">
+        <button class="nav-btn login-btn" onclick="openAuth()">Login</button>
+        <button class="nav-btn wish-btn" onclick="window.location.href='wishlist.html'">
+          <i class="fa-regular fa-heart"></i>
+          <span id="wishCount" class="wish-count">0</span>
+        </button>
+        <button class="nav-btn cart-nav-btn" onclick="window.location.href='cart.html'"><i
+            class="fa-solid fa-bag-shopping"></i><span class="cart-count" id="cartBadge">0</span></button>
+        <!--Account section-->
+
+        <div class="account-box">
+          <button class="nav-btn">
+            <i class="fa-regular fa-circle-user"></i>
+          </button>
+
+          <div class="account-dropdown">
+            <a href="account.html">👤 My Profile</a>
+            <a href="wishlist.html">❤️ Wishlist</a>
+            <a href="cart.html">🛒 Cart</a>
+            <a href="orders.html">📦 My Orders</a>
+            <a href="#" onclick="openAuth()">🔐 Login</a>
+            <a href="#" onclick="logoutUser()">🚪 Logout</a>
+          </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"><i class="fa-solid fa-moon"
+            id="themeIcon"></i></button>
+        <button class="hamburger" onclick="openMobileMenu()"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+  <div class="for-you-bar" id="forYou">
+
+    <div class="for-you-title">For You</div>
+
+    <div class="for-you-scroll">
+
+      <div class="for-you-card">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300">
+        <p>Makeup</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/top html.jpg">
+        <p>Dress</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300">
+        <p>Laptops</p>
+
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Makeup.png">
+        <p>Eyeliner</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=300">
+        <p>Shoe</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Heel.png">
+        <p>Heels</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Wd.png">
+        <p>Wooden Comb</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Massager.png">
+        <p>Massager</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Moistrisure.png">
+        <p>Moisturizerr</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Shirt.png">
+        <p>Shirt</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/Trolley Bag.png">
+        <p>Trolley Bag</p>
+      </div>
+
+      <div class="for-you-card">
+        <img src="img/earbud.png">
+        <p>Earbuds</p>
+      </div>
+
+    </div>
+
+    <!-- CATEGORY BAR -->
+    <div class="cat-bar">
+      <div class="cat-list">
+        <div class="cat-item">
+          <div class="cat-link active"><i class="fa-solid fa-person"></i>
+            <div class="cat-link active" onclick="scrollToSection('men')">
+              <i class="fa-solid fa-person"></i> Men
+            </div> <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;margin-left:2px"></i>
+          </div>
+          <div class="mega-menu">
+            <div class="mega-col">
+              <h4>Topwear</h4><a>Shirts</a><a>T-Shirts</a><a>Polos</a><a>Sweatshirts</a>
+            </div>
+            <div class="mega-col">
+              <h4>Bottomwear</h4><a>Jeans</a><a>Trousers</a><a>Shorts</a><a>Track Pants</a>
+            </div>
+            <div class="mega-col">
+              <h4>Ethnic</h4><a>Kurta</a><a>Sherwanis</a><a>Nehru Jacket</a><a>Dhoti</a>
+            </div>
+            <div class="mega-col">
+              <h4>Accessories</h4><a>Watches</a><a>Belts</a><a>Sunglasses</a><a>Wallets</a>
+            </div>
+          </div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-link"><i class="fa-solid fa-person-dress"></i>
+            <div class="cat-link" onclick="scrollToSection('women')">
+              <i class="fa-solid fa-person-dress"></i> Women
+            </div> <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;margin-left:2px"></i>
+          </div>
+          <div class="mega-menu">
+            <div class="mega-col">
+              <h4>Clothing</h4><a>Dresses</a><a>Tops</a><a>Kurtis</a><a>Sarees</a>
+            </div>
+            <div class="mega-col">
+              <h4>Ethnic</h4><a>Lehenga</a><a>Salwar Suit</a><a>Dupattas</a><a>Blouses</a>
+            </div>
+            <div class="mega-col">
+              <h4>Footwear</h4><a>Heels</a><a>Flats</a><a>Sandals</a><a>Sneakers</a>
+            </div>
+            <div class="mega-col">
+              <h4>Accessories</h4><a>Handbags</a><a>Jewellery</a><a>Watches</a><a>Sunglasses</a>
+            </div>
+          </div>
+        </div>
+        <div class="cat-link" onclick="scrollToSection('kids')">
+          <i class="fa-solid fa-child-reaching"></i> Kids
+        </div>
+        <div class="cat-item">
+          <div class="cat-link"><i class="fa-solid fa-shoe-prints"></i>
+            <div class="cat-link" onclick="scrollToSection('electronics')">
+              <i class="fa-solid fa-mobile-screen"></i> Electronics
+            </div>
+          </div>
+        </div>
+        <div class="cat-item">
+          <!-- <div class="cat-link"><i class="fa-solid fa-mobile-screen"></i> Electronics <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;margin-left:2px"></i></div> -->
+          <div class="mega-menu">
+            <div class="mega-col">
+              <h4>Mobiles</h4><a>iPhones</a><a>Samsung</a><a>OnePlus</a><a>Realme</a>
+            </div>
+            <div class="mega-col">
+              <h4>Audio</h4><a>Earbuds</a><a>Headphones</a><a>Speakers</a><a>Neckbands</a>
+            </div>
+            <div class="mega-col">
+              <h4>Wearables</h4><a>Smart Watches</a><a>Fitness Bands</a><a>Rings</a>
+            </div>
+            <div class="mega-col">
+              <h4>Laptops</h4><a>Gaming</a><a>Ultrabooks</a><a>MacBooks</a><a>Tablets</a>
+            </div>
+          </div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-link"><i class="fa-solid fa-gem"></i>
+            <div class="cat-link" onclick="scrollToSection('wedding')">
+              <i class="fa-solid fa-gem"></i> Wedding
+            </div>
+          </div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-link"><i class="fa-solid fa-star-and-crescent"></i>
+            <div class="cat-link" onclick="scrollToSection('festival')">
+              <i class="fa-solid fa-star-and-crescent"></i> Festival
+            </div>
+          </div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-link"><i class="fa-solid fa-spray-can-sparkles"></i>
+            <div class="cat-link" onclick="scrollToSection('beauty')">
+              <i class="fa-solid fa-spray-can-sparkles"></i> Beauty
+            </div>
+          </div>
+        </div>
+        <div class="cat-link" onclick="scrollToSection('home')">
+          <i class="fa-solid fa-house"></i> Home Decor
+        </div>
+        <div class="cat-item">
+          <div class="cat-link" onclick="scrollToSection('sports')">
+            <i class="fa-solid fa-dumbbell"></i> Sports
+          </div>
+        </div>
+        <div class="cat-link" onclick="scrollToSection('grocery')">
+          <i class="fa-solid fa-basket-shopping"></i> Grocery
+        </div>
+      </div>
+    </div>
+
+    <!-- SALE TIMER -->
+    <div class="timer-bar">
+      <div class="timer-text"><i class="fa-solid fa-fire"></i> FLASH SALE ENDS IN</div>
+      <div class="countdown">
+        <div class="count-unit"><span class="count-num" id="ch">08</span><span class="count-label">HRS</span></div>
+        <div class="count-sep">:</div>
+        <div class="count-unit"><span class="count-num" id="cm">24</span><span class="count-label">MIN</span></div>
+        <div class="count-sep">:</div>
+        <div class="count-unit"><span class="count-num" id="cs">37</span><span class="count-label">SEC</span></div>
+      </div>
+      <div style="font-size:0.82rem;color:var(--text-muted)">Up to <span
+          style="color:var(--neon-pink);font-weight:700">80% OFF</span> — Don't miss out!</div>
+    </div>
+
+    <!-- HERO SLIDER -->
+    <section class="hero" id="hero">
+      <div class="slide active">
+        <div class="slide-bg"
+          style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80')"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-badge"><i class="fa-solid fa-fire-flame-curved"></i> Festival Season 2025</div>
+          <h1>Celebrate in<br><span
+              style="background:linear-gradient(135deg,var(--neon-gold),#ff8c42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Style
+              &amp; Grace</span></h1>
+          <p>Discover handpicked ethnic collections for every occasion. Premium quality, unmatched elegance.</p>
+          <div class="hero-btns">
+            <button class="btn-primary" onclick="scrollToSection('wedding')">Shop Wedding</button>
+            <button class="btn-outline" onclick="scrollToSection('festival')">Festival Looks</button>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"
+          style="background-image:url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1400&q=80')">
+        </div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-badge"
+            style="background:rgba(0,229,255,0.12);border-color:rgba(0,229,255,0.3);color:var(--neon-cyan)"><i
+              class="fa-solid fa-bolt"></i> New Arrivals</div>
+          <h1>Premium<br><span
+              style="background:linear-gradient(135deg,var(--neon-cyan),#0099cc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Men's
+              Edit</span></h1>
+          <p>Curated fashion from world's finest brands. Shirts, blazers, formals &amp; more — all in one place.</p>
+          <div class="hero-btns">
+            <button class="btn-primary" onclick="scrollToSection('men')">Explore Men's</button>
+            <button class="btn-outline" onclick="scrollToSection('shoes')">Shoe Collection</button>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"
+          style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&q=80')">
+        </div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-badge"
+            style="background:rgba(255,45,120,0.12);border-color:rgba(255,45,120,0.3);color:var(--neon-pink)"><i
+              class="fa-solid fa-star"></i> Trending Now</div>
+          <h1>Women's<br><span
+              style="background:linear-gradient(135deg,var(--neon-pink),#ff8c42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Dream
+              Closet</span></h1>
+          <p>From everyday elegance to party glam — explore thousands of styles curated just for you.</p>
+          <div class="hero-btns">
+            <button class="btn-primary" onclick="scrollToSection('women')">Shop Women's</button>
+            <button class="btn-outline" onclick="scrollToSection('beauty')">Beauty & Skincare</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-arrows">
+        <button class="hero-arrow" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="hero-arrow" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="hero-dots" id="heroDots"></div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Shop by <span>Category</span></div>
+          <div class="section-subtitle">Explore our wide range of fashion &amp; lifestyle</div>
+        </div>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="scrollToSection('men')">
+          <div class="cat-icon">👔</div>
+          <h3>Men Fashion</h3>
+        </div>
+        <div class="cat-card" onclick="scrollToSection('women')">
+          <div class="cat-icon">👗</div>
+          <h3>Women Fashion</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🧒</div>
+          <h3>Kids Wear</h3>
+        </div>
+        <div class="cat-card" onclick="scrollToSection('shoes')">
+          <div class="cat-icon">👟</div>
+          <h3>Shoes</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⌚</div>
+          <h3>Watches</h3>
+        </div>
+        <div class="cat-card" onclick="scrollToSection('wedding')">
+          <div class="cat-icon">💒</div>
+          <h3>Wedding</h3>
+        </div>
+        <div class="cat-card" onclick="scrollToSection('festival')">
+          <div class="cat-icon">🪔</div>
+          <h3>Festival</h3>
+        </div>
+        <div class="cat-card" onclick="scrollToSection('beauty')">
+          <div class="cat-icon">💄</div>
+          <h3>Beauty</h3>
+        </div>
+        <div class="cat-card" onclick="scrollToSection('electronics')">
+          <div class="cat-icon">📱</div>
+          <h3>Electronics</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🏠</div>
+          <h3>Home Decor</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">👜</div>
+          <h3>Bags</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⚽</div>
+          <h3>Sports</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🛒</div>
+          <h3>Grocery</h3>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">💍</div>
+          <h3>Jewellery</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO BANNERS -->
+    <section class="section" style="padding-top:0">
+      <div class="promo-grid">
+        <div class="promo-card" onclick="scrollToSection('wedding')">
+          <div class="promo-bg"
+            style="background-image:url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700&q=80')">
+          </div>
+          <div class="promo-overlay" style="background:linear-gradient(135deg,rgba(80,20,20,0.85),transparent)"></div>
+          <div class="promo-content">
+            <h3>Wedding Season</h3>
+            <p>Sherwani, Lehenga &amp; more</p>
+            <div class="promo-cta">Shop Now <i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+        </div>
+        <div class="promo-card" onclick="scrollToSection('electronics')">
+          <div class="promo-bg"
+            style="background-image:url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700&q=80')">
+          </div>
+          <div class="promo-overlay" style="background:linear-gradient(135deg,rgba(10,30,80,0.85),transparent)"></div>
+          <div class="promo-content">
+            <h3>Tech Essentials</h3>
+            <p>Phones, watches &amp; gadgets</p>
+            <div class="promo-cta" style="color:var(--neon-cyan)">Explore <i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+        </div>
+        <div class="promo-card" onclick="scrollToSection('beauty')">
+          <div class="promo-bg"
+            style="background-image:url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&q=80')">
+          </div>
+          <div class="promo-overlay" style="background:linear-gradient(135deg,rgba(80,20,50,0.85),transparent)"></div>
+          <div class="promo-content">
+            <h3>Beauty &amp; Glow</h3>
+            <p>Skincare, makeup &amp; fragrance</p>
+            <div class="promo-cta" style="color:var(--neon-pink)">Discover <i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- MEN'S FASHION -->
+    <section class="section" id="men">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Men's <span>Fashion</span></div>
+          <div class="section-subtitle">Premium shirts, jeans, blazers &amp; more</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="filter-tabs">
+        <div class="filter-tab active" onclick="filterProducts(this,'men')">All</div>
+        <div class="filter-tab" onclick="filterProducts(this,'men-shirts')">Shirts</div>
+        <div class="filter-tab" onclick="filterProducts(this,'men-tshirt')">T-Shirts</div>
+        <div class="filter-tab" onclick="filterProducts(this,'men-jeans')">Jeans</div>
+        <div class="filter-tab" onclick="filterProducts(this,'men-blazer')">Blazers</div>
+        <div class="filter-tab" onclick="filterProducts(this,'men-formal')">Formals</div>
+      </div>
+      <div class="products-grid" id="menGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WOMEN'S FASHION -->
+    <section class="section" id="women">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Women's <span>Fashion</span></div>
+          <div class="section-subtitle">Dresses, sarees, kurtis, handbags &amp; heels</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="filter-tabs">
+        <div class="filter-tab active" onclick="filterProducts(this,'women')">All</div>
+        <div class="filter-tab" onclick="filterProducts(this,'women-dress')">Dresses</div>
+        <div class="filter-tab" onclick="filterProducts(this,'women-saree')">Sarees</div>
+        <div class="filter-tab" onclick="filterProducts(this,'women-kurti')">Kurtis</div>
+        <div class="filter-tab" onclick="filterProducts(this,'women-bag')">Handbags</div>
+      </div>
+      <div class="products-grid" id="womenGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WEDDING COLLECTION -->
+    <section class="section" id="wedding" style="background:linear-gradient(180deg,transparent,rgba(80,20,20,0.08))">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Wedding <span>Collection</span></div>
+          <div class="section-subtitle">Sherwani, Lehenga, Suits &amp; Bridal accessories</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="products-grid" id="weddingGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- FESTIVAL COLLECTION -->
+    <section class="section" id="festival">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Festival <span>Specials</span></div>
+          <div class="section-subtitle">Diwali, Eid, Navratri &amp; more festive outfits</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="products-grid" id="festivalGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SHOES -->
+    <section class="section" id="shoes">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Shoes &amp; <span>Footwear</span></div>
+          <div class="section-subtitle">Sneakers, heels, sports shoes, sandals &amp; more</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="filter-tabs">
+        <div class="filter-tab active">All</div>
+        <div class="filter-tab">Sneakers</div>
+        <div class="filter-tab">Sports</div>
+        <div class="filter-tab">Heels</div>
+        <div class="filter-tab">Formal</div>
+        <div class="filter-tab">Sandals</div>
+      </div>
+      <div class="products-grid" id="shoesGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ELECTRONICS -->
+    <section class="section" id="electronics">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Electronics &amp; <span>Gadgets</span></div>
+          <div class="section-subtitle">Phones, headphones, smart watches &amp; more</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="products-grid" id="electronicsGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- BEAUTY -->
+    <section class="section" id="beauty">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Beauty &amp; <span>Skincare</span></div>
+          <div class="section-subtitle">Perfumes, makeup, skincare &amp; wellness</div>
+        </div>
+        <div class="view-all">View All <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="products-grid" id="beautyGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+    <div class="divider"></div>
+
+    <section class="section" id="kids">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Kids <span>Collection</span></div>
+          <div class="section-subtitle">Fun & stylish wear for kids</div>
+        </div>
+      </div>
+      <div class="products-grid" id="kidsGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" id="home">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Home <span>Decor</span></div>
+          <div class="section-subtitle">Decorate your dream home</div>
+        </div>
+      </div>
+      <div class="products-grid" id="homeGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" id="sports">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Sports & <span>Fitness</span></div>
+          <div class="section-subtitle">Stay active & healthy</div>
+        </div>
+      </div>
+      <div class="products-grid" id="sportsGrid"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" id="grocery">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Daily <span>Grocery</span></div>
+          <div class="section-subtitle">Fresh essentials everyday</div>
+        </div>
+      </div>
+      <div class="products-grid" id="groceryGrid"></div>
+    </section>
+    <!-- REVIEWS -->
+    <div class="divider"></div>
+
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter">
+      <h2>Join the <span
+          style="background:linear-gradient(135deg,var(--neon-gold),#ff8c42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">LuxeMart</span>
+        Community</h2>
+      <p>Get exclusive deals, early access to sales, and style inspiration delivered to your inbox.</p>
+      <div class="nl-form">
+        <input type="email" placeholder="Enter your email address…">
+        <button class="btn-primary" onclick="showToast('Subscribed successfully! 🎉','fa-envelope')">Subscribe</button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-footer">LuxeMart</span>
+          <p>India's premium fashion &amp; lifestyle destination. Curating the finest brands for over 10 million happy
+            shoppers.</p>
+          <div class="footer-social">
+            <div class="soc-btn" onclick="showToast('Instagram @LuxeMart','fa-instagram')"><i
+                class="fa-brands fa-instagram"></i></div>
+            <div class="soc-btn"><i class="fa-brands fa-facebook-f"></i></div>
+            <div class="soc-btn"><i class="fa-brands fa-x-twitter"></i></div>
+            <div class="soc-btn"><i class="fa-brands fa-youtube"></i></div>
+            <div class="soc-btn"><i class="fa-brands fa-pinterest-p"></i></div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a>About Us</a><a>Careers</a><a>Press &amp; Media</a><a>Investor Relations</a><a>LuxeMart Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Help</h4>
+          <a>Help Center</a><a>Track Order</a><a>Returns &amp; Exchanges</a><a>Shipping Policy</a><a>Size Guide</a>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a>New Arrivals</a><a>Best Sellers</a><a>Clearance Sale</a><a>Gift Cards</a><a>LuxeMart Pro</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a>Terms of Service</a><a>Privacy Policy</a><a>Cookie Policy</a><a>Accessibility</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2025 LuxeMart Pvt. Ltd. All rights reserved.</div>
+        <div class="footer-pay-icons">
+          <span class="pay-icon">VISA</span>
+          <span class="pay-icon">MC</span>
+          <span class="pay-icon">UPI</span>
+          <span class="pay-icon">GPay</span>
+          <span class="pay-icon">PayTM</span>
+          <span class="pay-icon">COD</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- FLOATING BUTTONS -->
+    <div class="fab-group">
+      <div class="fab-wrap">
+        <span class="fab-label">WhatsApp Support</span>
+        <button class="fab fab-wa" onclick="openWhatsAppPage()"><i class="fa-brands fa-whatsapp"></i></button>
+      </div>
+      <div class="fab-wrap">
+        <span class="fab-label">AI Style Assistant</span>
+        <button class="fab fab-ai" onclick="toggleAI()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+      </div>
+    </div>
+
+    <!-- LIVE STATS WIDGET -->
+    <div class="live-stats" id="liveStats" style="display:none">
+      <div class="live-stats-header">
+        <span><i class="fa-solid fa-chart-line" style="color:var(--neon-cyan)"></i> Live Dashboard</span>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <span class="live-dot"></span>
+          <button onclick="document.getElementById('liveStats').style.display='none'"
+            style="background:none;border:none;color:var(--text-muted);cursor:pointer"><i
+              class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+      <div class="live-stats-grid">
+        <div class="live-stat">
+          <div class="live-stat-val" id="lsVisitors">—</div>
+          <div class="live-stat-label">Visitors</div>
+        </div>
+        <div class="live-stat">
+          <div class="live-stat-val" id="lsOrders">—</div>
+          <div class="live-stat-label">Orders</div>
+        </div>
+        <div class="live-stat" style="grid-column:span 2">
+          <div class="live-stat-val" id="lsRevenue">—</div>
+          <div class="live-stat-label">Revenue (₹)</div>
+        </div>
+      </div>
+      <div style="font-size:0.7rem;color:var(--text-muted);text-align:right;margin-top:0.4rem">SSE Stream — Unit I
+        Node.js</div>
+    </div>
+
+
+    <!-- QUICK VIEW MODAL -->
+    <div class="qv-modal" id="qvModal">
+      <div class="qv-content">
+        <button class="qv-close" onclick="closeQuickView()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="qv-body" id="qvBody">
+          <!-- Content injected via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- AI POPUP -->
+    <div class="ai-popup" id="aiPopup">
+      <div class="ai-header">
+        <h3><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--neon-purple)"></i> AI Style Assistant <span
+            class="ai-badge">BETA</span></h3>
+        <button class="ai-close" onclick="toggleAI()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="aiHome">
+        <div class="ai-question">Where are you headed today? I'll curate the perfect outfit for you ✨</div>
+        <div class="ai-options">
+          <!-- College button replace karo -->
+
+
+
+          <div class="ai-option" onclick="window.location.href='college.html'">🎓 College</div>
+
+          <div class="ai-option" onclick="window.location.href='office.html'">💼 Office</div>
+
+          <div class="ai-option" onclick="window.location.href='party.html'">🎉 Party</div>
+
+          <div class="ai-option" onclick="window.location.href='wedding.html'">💒 Wedding</div>
+
+          <div class="ai-option" onclick="window.location.href='festival.html'">🪔 Festival</div>
+
+          <div class="ai-option" onclick="window.location.href='casual.html'">😊 Casual</div>
+
+        </div>
+
+      </div>
+      <div class="ai-result" id="aiResult">
+        <h4 id="aiResultTitle"></h4>
+        <div id="aiOutfitItems"></div>
+        <button class="ai-back" onclick="resetAI()"><i class="fa-solid fa-arrow-left"></i> Try Another Occasion</button>
+      </div>
+    </div>
+
+
+
+    <!-- FULL AI OPTIONS BLOCK -->
+
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <span class="logo" style="font-size:1.4rem">LuxeMart</span>
+        <button onclick="closeMobileMenu()"
+          style="background:none;border:none;color:var(--text-primary);font-size:1.3rem;cursor:pointer"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('men')">👔 Men Fashion</div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('women')">👗 Women Fashion</div>
+      <div class="mobile-nav-link">🧒 Kids Wear</div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('shoes')">👟 Shoes</div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('wedding')">💒 Wedding Collection</div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('festival')">🪔 Festival Collection</div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('electronics')">📱 Electronics</div>
+      <div class="mobile-nav-link" onclick="closeMobileMenu();scrollToSection('beauty')">💄 Beauty</div>
+      <div class="mobile-nav-link">⌚ Watches</div>
+      <div class="mobile-nav-link">🏠 Home Decor</div>
+      <div style="margin-top:1rem;display:flex;gap:0.8rem">
+        <button class="nav-btn login-btn" style="flex:1;padding:0.7rem"><i class="fa-regular fa-user"></i> Login /
+          Signup</button>
+      </div>
+    </div>
+    <!-- LOGIN MODAL -->
+    <div id="authModal" class="auth-modal">
+      <div class="auth-box">
+
+        <div class="auth-header">
+          <h2>LuxeMart</h2>
+          <span onclick="closeAuth()">✖</span>
+        </div>
+
+        <div class="auth-tabs">
+          <button id="loginTab" class="active" onclick="switchTab('login')">Sign In</button>
+          <button id="signupTab" onclick="switchTab('signup')">Create Account</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginForm" class="auth-form">
+          <input type="text" id="loginEmail" placeholder="Email or Mobile">
+          <input type="password" id="loginPass" placeholder="Password">
+          <button onclick="loginUser()">Sign In</button>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div id="signupForm" class="auth-form hidden">
+          <input type="text" id="fname" placeholder="First Name">
+          <input type="text" id="lname" placeholder="Last Name">
+          <input type="email" id="email" placeholder="Email">
+          <input type="text" id="mobile" placeholder="Mobile Number">
+          <input type="password" id="pass" placeholder="Create Password">
+          <button onclick="createAccount()">Create Account</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Socket.IO CDN (Unit III) -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- API Client -->
+    <script src="api.js"></script>
+
+    <script src="index.js"></script>
+    <script>
+      // ── Update navbar based on localStorage user ──
+      function updateNavbarAuthState() {
+        try {
+          const user = JSON.parse(localStorage.getItem('luxemart_user'));
+          const loginBtn = document.querySelector('.login-btn');
+          if (!loginBtn) return;
+          if (user && (user.firstName || user.name)) {
+            loginBtn.textContent = user.firstName || user.name.split(' ')[0];
+            loginBtn.onclick = () => window.location.href = 'account.html';
+          } else {
+            loginBtn.textContent = 'Login';
+            loginBtn.onclick = openAuth;
+          }
+        } catch (e) { }
+      }
+
+      // ── Login: connect to backend ──
+      async function loginUser() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        if (!email || !pass) { showToast('Please enter valid details', 'fa-xmark'); return; }
+
+        try {
+          const res = await window.apiLogin(email, pass);
+          if (res && res.success) {
+            closeAuth();
+            showToast('Welcome back, ' + res.user.name + '! 🚀', 'fa-circle-user');
+            updateNavbarAuthState();
+          } else {
+            showToast('Login failed', 'fa-xmark');
+          }
+        } catch (err) {
+          showToast(err.message || 'Invalid credentials', 'fa-xmark');
+        }
+      }
+
+      // ── Signup: connect to backend ──
+      async function createAccount() {
+        const firstName = document.getElementById('fname').value.trim();
+        const lastName = document.getElementById('lname').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const mobile = document.getElementById('mobile').value.trim();
+        const password = document.getElementById('pass').value;
+
+        if (!firstName || !email || !password) {
+          showToast('Please fill all required fields', 'fa-xmark');
+          return;
+        }
+
+        try {
+          const name = firstName + (lastName ? ' ' + lastName : '');
+          const res = await window.apiRegister({ name, firstName, lastName, email, mobile, password });
+          if (res && res.success) {
+            showToast('Account created! Welcome, ' + firstName + ' 🎉', 'fa-circle-check');
+            closeAuth();
+            updateNavbarAuthState();
+          } else {
+            showToast('Failed to create account', 'fa-xmark');
+          }
+        } catch (err) {
+          showToast(err.message || 'Error creating account', 'fa-xmark');
+        }
+      }
+
+      // ── Logout ──
+      async function logoutUser() {
+        if (window.apiLogout) await window.apiLogout();
+        else localStorage.removeItem('luxemart_user');
+        
+        updateNavbarAuthState();
+        showToast('Logged out successfully', 'fa-right-from-bracket');
+      }
+
+      // ── Init on page load ──
+      window.addEventListener('pageshow', function () {
+        updateNavbarAuthState();
+        updateCartBadge();
+        updateWishlistCount();
+      });
+      window.addEventListener('DOMContentLoaded', function () {
+        updateNavbarAuthState();
+      });
+    </script>
+</body>
+
+</html>
+

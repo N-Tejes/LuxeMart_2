@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders — LuxeMart</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #07070f;
+      --surface: #0f0f1c;
+      --surface2: #161628;
+      --border: #1e1e35;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --gold: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --text: #f1f0ff;
+      --muted: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-link {
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      background: transparent;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .nav-link:hover {
+      background: var(--border);
+    }
+
+    .nav-link.purple {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+    }
+
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(168, 85, 247, 0.05));
+      border-bottom: 1px solid var(--border);
+      padding: 40px;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hstat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hstat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .hstat-info {}
+
+    .hstat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .hstat-lbl {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* FILTER BAR */
+    .filter-wrap {
+      padding: 24px 40px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .search-box {
+      margin-left: auto;
+      position: relative;
+    }
+
+    .search-box input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 16px 8px 36px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      width: 220px;
+      transition: 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      width: 260px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    /* ORDERS */
+    .orders-wrap {
+      padding: 0 40px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .order-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .order-card:hover {
+      border-color: rgba(124, 58, 237, 0.4);
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.1);
+    }
+
+    /* Order header */
+    .order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .order-id {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .order-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .order-meta-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-pill {
+      padding: 5px 13px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .s-delivered {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+    }
+
+    .s-transit {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold);
+    }
+
+    .s-processing {
+      background: rgba(124, 58, 237, 0.15);
+      color: var(--accent2);
+    }
+
+    .s-cancelled {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+    }
+
+    .order-amount {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent2);
+    }
+
+    /* Order body */
+    .order-body {
+      display: flex;
+      gap: 0;
+    }
+
+    .order-items {
+      flex: 1;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .item-img {
+      width: 68px;
+      height: 68px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--surface2);
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    .item-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: var(--accent2);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    /* Order footer */
+    .order-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .order-action {
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .order-action:hover {
+      background: var(--border);
+    }
+
+    .order-action.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      color: white;
+    }
+
+    .order-action.danger {
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .order-action.danger:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* TRACKING BAR */
+    .track-bar {
+      padding: 16px 22px;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+
+    .track-bar.show {
+      display: block;
+    }
+
+    .track-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .track-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .track-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+
+    .track-step.done:not(:last-child)::after {
+      background: var(--green);
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      background: var(--border);
+      color: var(--muted);
+      border: 2px solid var(--border);
+    }
+
+    .track-step.done .step-dot {
+      background: var(--green);
+      border-color: var(--green);
+      color: white;
+    }
+
+    .track-step.active .step-dot {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: white;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4)
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(245, 158, 11, 0)
+      }
+    }
+
+    .step-label {
+      font-size: 0.7rem;
+      margin-top: 6px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .track-step.done .step-label,
+    .track-step.active .step-label {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* EMPTY */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+
+    .empty-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--surface2);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: 0.3s;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media(max-width:700px) {
+      .topbar {
+        padding: 16px 20px;
+      }
+
+      .page-hero {
+        padding: 28px 20px;
+      }
+
+      .filter-wrap {
+        padding: 16px 20px;
+      }
+
+      .orders-wrap {
+        padding: 0 20px 30px;
+      }
+
+      .search-box {
+        margin-left: 0;
+      }
+
+      .hero-stats {
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div class="topbar">
+    <a href="index.html" class="logo">LuxeMart</a>
+    <div class="nav-links">
+      <a href="account.html" class="nav-link"><i class="fa-regular fa-user"></i> My Account</a>
+      <a href="index.html" class="nav-link purple"><i class="fa-solid fa-bag-shopping"></i> Shop</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="hero-title">📦 My Orders</div>
+    <div class="hero-sub">Track, manage, and reorder your purchases</div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-icon" style="background:rgba(16,185,129,0.15)">✅</div>
+        <div class="hstat-info">
+          <div class="hstat-num">8</div>
+          <div class="hstat-lbl">Delivered</div>
+        </div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-icon" style="background:rgba(245,158,11,0.15)">🚚</div>
+        <div class="hstat-info">
+          <div class="hstat-num">2</div>
+          <div class="hstat-lbl">In Transit</div>
+        </div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-icon" style="background:rgba(124,58,237,0.15)">⏳</div>
+        <div class="hstat-info">
+          <div class="hstat-num">1</div>
+          <div class="hstat-lbl">Processing</div>
+        </div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-icon" style="background:rgba(239,68,68,0.15)">❌</div>
+        <div class="hstat-info">
+          <div class="hstat-num">1</div>
+          <div class="hstat-lbl">Cancelled</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-wrap">
+    <button class="filter-btn active" onclick="filterOrders('all',this)">All Orders</button>
+    <button class="filter-btn" onclick="filterOrders('delivered',this)">✅ Delivered</button>
+    <button class="filter-btn" onclick="filterOrders('transit',this)">🚚 In Transit</button>
+    <button class="filter-btn" onclick="filterOrders('processing',this)">⏳ Processing</button>
+    <button class="filter-btn" onclick="filterOrders('cancelled',this)">❌ Cancelled</button>
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search orders…" oninput="searchOrders(this.value)">
+    </div>
+  </div>
+
+  <!-- ORDERS LIST -->
+  <div class="orders-wrap" id="ordersList"></div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i><span
+      id="toastMsg"></span></div>
+
+  <script>
+    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    // Normalize stored orders into the same display shape
+    const orders = storedOrders.map(o => ({
+      id: o.id || ('#LX-' + Math.floor(1000 + Math.random() * 9000)),
+      date: o.date || new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
+      status: o.status || 'processing',
+      amount: o.amount || o.price || 0,
+      items: o.items ? o.items : [{ name: o.name || 'Product', brand: o.brand || 'LuxeMart', size: o.size || 'M', price: o.price || 0, img: o.img || '' }],
+      track: o.track !== undefined ? o.track : 1,
+      address: o.address || '123, Sector 7, New Delhi'
+    })).reverse(); // newest first
+
+    // Update hero stats dynamically
+    function updateHeroStats() {
+      const counts = { delivered: 0, transit: 0, processing: 0, cancelled: 0 };
+      orders.forEach(o => { if (counts[o.status] !== undefined) counts[o.status]++; });
+      const nums = document.querySelectorAll('.hstat-num');
+      if (nums[0]) nums[0].textContent = counts.delivered;
+      if (nums[1]) nums[1].textContent = counts.transit;
+      if (nums[2]) nums[2].textContent = counts.processing;
+      if (nums[3]) nums[3].textContent = counts.cancelled;
+    }
+    window.addEventListener('DOMContentLoaded', updateHeroStats);
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    const statusConfig = {
+      delivered: { pill: 's-delivered', label: '✅ Delivered', trackDone: 3 },
+      transit: { pill: 's-transit', label: '🚚 In Transit', trackDone: 2 },
+      processing: { pill: 's-processing', label: '⏳ Processing', trackDone: 1 },
+      cancelled: { pill: 's-cancelled', label: '❌ Cancelled', trackDone: 0 }
+    };
+
+    const trackSteps = ['Ordered', 'Packed', 'Shipped', 'Delivered'];
+
+    function renderOrders() {
+      let filtered = orders.filter(o => {
+        if (currentFilter !== 'all' && o.status !== currentFilter) return false;
+        if (currentSearch && !o.id.toLowerCase().includes(currentSearch) && !o.items.some(i => i.name.toLowerCase().includes(currentSearch))) return false;
+        return true;
+      });
+
+      let el = document.getElementById('ordersList');
+
+      if (!filtered.length) {
+        el.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">No orders found</div><p>Try a different filter or search term</p></div>`;
+        return;
+      }
+
+      el.innerHTML = filtered.map(o => {
+        let cfg = statusConfig[o.status];
+        let trackDone = o.track;
+
+        let trackHtml = trackSteps.map((s, i) => {
+          let cls = i < trackDone ? 'done' : (i === trackDone && o.status !== 'cancelled' ? 'active' : '');
+          return `<div class="track-step ${cls}">
+        <div class="step-dot"><i class="fa-solid fa-check" style="font-size:0.6rem"></i></div>
+        <div class="step-label">${s}</div>
+      </div>`;
+        }).join('');
+
+        let itemsHtml = o.items.map(item => `
+      <div class="order-item">
+        <img src="${item.img}" class="item-img" onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=80'">
+        <div class="item-info">
+          <div class="item-name">${item.name}</div>
+          <div class="item-meta">${item.brand}${item.size ? ' · Size: ' + item.size : ''}</div>
+        </div>
+        <div class="item-price">₹${item.price.toLocaleString()}</div>
+      </div>
+    `).join('');
+
+        return `
+      <div class="order-card" data-status="${o.status}" data-id="${o.id}">
+        <div class="order-header">
+          <div>
+            <div class="order-id">Order ${o.id}</div>
+            <div class="order-date">Placed on ${o.date}</div>
+          </div>
+          <div class="order-meta-right">
+            <span class="status-pill ${cfg.pill}">${cfg.label}</span>
+            <span class="order-amount">₹${o.amount.toLocaleString()}</span>
+          </div>
+        </div>
+        <div class="order-body">
+          <div class="order-items">${itemsHtml}</div>
+        </div>
+        ${o.status !== 'cancelled' ? `<div class="track-bar" id="track-${o.id.replace('#', '')}">
+          <div style="font-size:0.78rem;color:var(--muted);margin-bottom:14px">📍 Delivery to: ${o.address}</div>
+          <div class="track-steps">${trackHtml}</div>
+        </div>` : ''}
+        <div class="order-footer">
+          ${o.status === 'delivered' ? `
+            <button class="order-action primary" onclick="showToast('Redirecting to buy again...');setTimeout(()=>window.location.href='index.html',1000)"><i class="fa-solid fa-rotate-right" style="margin-right:6px;font-size:0.78rem"></i>Buy Again</button>
+            <button class="order-action" onclick="showToast('Invoice downloaded!')"><i class="fa-solid fa-file-invoice" style="margin-right:6px;font-size:0.78rem"></i>Invoice</button>
+            <button class="order-action" onclick="showToast('Thanks for the review! ⭐')"><i class="fa-regular fa-star" style="margin-right:6px;font-size:0.78rem"></i>Rate Product</button>
+          ` : o.status === 'transit' ? `
+            <button class="order-action primary" onclick="toggleTrack('${o.id.replace('#', '')}')" ><i class="fa-solid fa-location-dot" style="margin-right:6px;font-size:0.78rem"></i>Track Order</button>
+            <button class="order-action danger" onclick="cancelOrder('${o.id}')"><i class="fa-solid fa-xmark" style="margin-right:6px;font-size:0.78rem"></i>Request Cancel</button>
+          ` : o.status === 'processing' ? `
+            <button class="order-action primary" onclick="toggleTrack('${o.id.replace('#', '')}')" ><i class="fa-solid fa-eye" style="margin-right:6px;font-size:0.78rem"></i>View Status</button>
+            <button class="order-action danger" onclick="cancelOrder('${o.id}')"><i class="fa-solid fa-ban" style="margin-right:6px;font-size:0.78rem"></i>Cancel Order</button>
+          ` : `
+            <button class="order-action primary" onclick="showToast('Redirecting...');setTimeout(()=>window.location.href='index.html',1000)"><i class="fa-solid fa-rotate-right" style="margin-right:6px;font-size:0.78rem"></i>Reorder</button>
+            <button class="order-action" onclick="showToast('Refund status: Processed ✅')"><i class="fa-solid fa-indian-rupee-sign" style="margin-right:6px;font-size:0.78rem"></i>Refund Status</button>
+          `}
+          <button class="order-action" style="margin-left:auto" onclick="showToast('Opening WhatsApp support...');setTimeout(()=>window.location.href='wp.html',1000)"><i class="fa-brands fa-whatsapp" style="margin-right:6px;font-size:0.78rem;color:var(--green)"></i>Help</button>
+        </div>
+      </div>
+    `;
+      }).join('');
+    }
+
+    function toggleTrack(id) {
+      let el = document.getElementById('track-' + id);
+      if (!el) return;
+      el.classList.toggle('show');
+    }
+
+    function filterOrders(status, btn) {
+      currentFilter = status;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderOrders();
+    }
+
+    function searchOrders(val) {
+      currentSearch = val.toLowerCase().trim();
+      renderOrders();
+    }
+
+    function cancelOrder(orderId) {
+      if (!confirm('Are you sure you want to cancel this order?')) return;
+      const stored = JSON.parse(localStorage.getItem('orders')) || [];
+      const idx = stored.findIndex(o => o.id === orderId);
+      if (idx !== -1) {
+        stored[idx].status = 'cancelled';
+        stored[idx].track = 0;
+        localStorage.setItem('orders', JSON.stringify(stored));
+      }
+      showToast('Order ' + orderId + ' cancelled');
+      setTimeout(() => location.reload(), 1200);
+    }
+
+    function showToast(msg) {
+      document.getElementById('toastMsg').textContent = msg;
+      let t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    renderOrders();
+    updateHeroStats();
+  </script>
+</body>
+
+</html>

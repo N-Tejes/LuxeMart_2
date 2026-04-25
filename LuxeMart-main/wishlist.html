@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Wishlist — LuxeMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg:#07070f; --surface:#0f0f1c; --surface2:#161628; --border:#1e1e35;
+    --accent:#7c3aed; --accent2:#a855f7; --gold:#f59e0b; --green:#10b981;
+    --red:#ef4444; --text:#f1f0ff; --muted:#6b7280;
+    --pink:#ff2d75;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+  /* NAV */
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+  .logo { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; background:linear-gradient(135deg,#a855f7,#7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-decoration:none; }
+  .nav-links { display:flex; gap:10px; align-items:center; }
+  .nav-link { padding:9px 18px; border:1px solid var(--border); border-radius:50px; background:transparent; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer; transition:0.2s; text-decoration:none; display:flex; align-items:center; gap:7px; }
+  .nav-link:hover { background:var(--border); }
+  .nav-link.purple { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; }
+
+  /* HERO */
+  .page-hero { background:linear-gradient(135deg,rgba(255,45,117,0.08),rgba(124,58,237,0.05)); border-bottom:1px solid var(--border); padding:40px 40px 32px; }
+  .hero-title { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; margin-bottom:6px; }
+  .hero-sub { color:var(--muted); font-size:0.9rem; }
+
+  /* GRID */
+  .wish-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:22px; padding:40px; }
+  .wish-card { background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:0.3s; }
+  .wish-card:hover { border-color:rgba(255,45,117,0.4); box-shadow:0 8px 30px rgba(255,45,117,0.1); transform:translateY(-4px); }
+  .card-img-wrap { position:relative; overflow:hidden; }
+  .card-img { width:100%; height:240px; object-fit:cover; transition:0.4s; }
+  .wish-card:hover .card-img { transform:scale(1.05); }
+  .remove-wish { position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; background:rgba(7,7,15,0.8); border:1px solid rgba(239,68,68,0.4); color:var(--red); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:0.2s; backdrop-filter:blur(4px); }
+  .remove-wish:hover { background:var(--red); color:white; border-color:var(--red); }
+  .card-body { padding:18px; }
+  .card-name { font-weight:700; font-size:0.98rem; margin-bottom:4px; line-height:1.3; }
+  .card-brand { font-size:0.78rem; color:var(--muted); margin-bottom:12px; }
+  .card-price { font-family:'Syne',sans-serif; font-weight:700; font-size:1.15rem; color:var(--accent2); margin-bottom:14px; }
+  .card-btns { display:flex; flex-direction:column; gap:8px; }
+  .add-cart-btn { width:100%; padding:11px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:10px; color:white; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.88rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:7px; }
+  .add-cart-btn:hover { opacity:0.88; }
+  .add-cart-btn.added { background:linear-gradient(135deg,var(--green),#059669); }
+  .rm-btn { width:100%; padding:9px; background:transparent; border:1px solid rgba(239,68,68,0.3); border-radius:10px; color:var(--red); font-family:'DM Sans',sans-serif; font-size:0.85rem; cursor:pointer; transition:0.2s; }
+  .rm-btn:hover { background:rgba(239,68,68,0.08); }
+
+  /* EMPTY */
+  .empty-state { text-align:center; padding:100px 40px; }
+  .empty-icon { font-size:4rem; margin-bottom:20px; opacity:0.3; }
+  .empty-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:700; margin-bottom:8px; }
+  .empty-sub { color:var(--muted); font-size:0.9rem; margin-bottom:28px; }
+  .shop-btn { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:12px; color:white; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.95rem; cursor:pointer; text-decoration:none; }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:28px; right:28px; background:var(--surface2); border:1px solid var(--accent); border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:10px; font-size:0.9rem; box-shadow:0 8px 30px rgba(0,0,0,0.4); transform:translateY(20px); opacity:0; transition:0.3s; z-index:999; pointer-events:none; }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  @media(max-width:600px) { .topbar{padding:16px 20px;} .page-hero{padding:28px 20px;} .wish-grid{padding:20px; grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar">
+  <a href="index.html" class="logo">LuxeMart</a>
+  <div class="nav-links">
+    <a href="cart.html" class="nav-link"><i class="fa-solid fa-bag-shopping"></i> Cart</a>
+    <a href="account.html" class="nav-link"><i class="fa-regular fa-user"></i> Account</a>
+    <a href="index.html" class="nav-link purple"><i class="fa-solid fa-store"></i> Shop</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-title">💖 My Wishlist</div>
+  <div class="hero-sub" id="wishSub">Items you love, saved for later</div>
+</div>
+
+<!-- GRID -->
+<div id="wishlistGrid" class="wish-grid"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i><span id="toastMsg"></span></div>
+
+<script src="api.js"></script>
+<script>
+let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function render() {
+  const el = document.getElementById('wishlistGrid');
+  document.getElementById('wishSub').textContent = wishlist.length
+    ? `${wishlist.length} item${wishlist.length > 1 ? 's' : ''} saved for later`
+    : 'Items you love, saved for later';
+
+  if (!wishlist.length) {
+    el.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">💔</div>
+        <div class="empty-title">Your wishlist is empty</div>
+        <div class="empty-sub">Save items you love and come back to them later.</div>
+        <a href="index.html" class="shop-btn"><i class="fa-solid fa-heart"></i> Discover Products</a>
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = wishlist.map((item, i) => {
+    const inCart = cart.some(c => c.name === item.name);
+    return `
+    <div class="wish-card">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${item.image || item.img || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400'}" onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400'" alt="${item.name}">
+        <button class="remove-wish" onclick="removeItem(${i})" title="Remove"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${item.name}</div>
+        <div class="card-brand">${item.brand || ''}</div>
+        <div class="card-price">₹${Number(item.price).toLocaleString()}</div>
+        <div class="card-btns">
+          <button class="add-cart-btn ${inCart ? 'added' : ''}" id="cartBtn-${i}" onclick="addToCart(${i})">
+            ${inCart ? '<i class="fa-solid fa-check"></i> Added to Cart' : '<i class="fa-solid fa-bag-shopping"></i> Add to Cart'}
+          </button>
+          <button class="rm-btn" onclick="removeItem(${i})"><i class="fa-solid fa-trash" style="font-size:0.75rem;margin-right:4px"></i>Remove</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function removeItem(i) {
+  wishlist.splice(i, 1);
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  if (window.LuxeAPI && window.LuxeAPI.Users && localStorage.getItem('luxemart_token')) {
+      window.LuxeAPI.Users.updateWishlist(wishlist).catch(e=>console.log(e));
+  }
+  showToast('Removed from wishlist');
+  render();
+}
+
+function addToCart(i) {
+  const item = wishlist[i];
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const exists = cart.findIndex(c => c.name === item.name);
+  if (exists !== -1) {
+    showToast('Already in cart!');
+    return;
+  }
+  const cartId = 'wish-' + i + '-' + Date.now();
+  cart.push({ id: cartId, name: item.name, price: item.price, img: item.image || item.img, brand: item.brand || '', qty: 1 });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  if (window.LuxeAPI && window.LuxeAPI.Users && localStorage.getItem('luxemart_token')) {
+      window.LuxeAPI.Users.updateCart(cart).catch(e=>console.log(e));
+  }
+  showToast('Added to cart! 🛒');
+  render();
+}
+
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+render();
+</script>
+</body>
+</html>

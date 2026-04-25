@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Cart — LuxeMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg:#07070f; --surface:#0f0f1c; --surface2:#161628; --border:#1e1e35;
+    --accent:#7c3aed; --accent2:#a855f7; --gold:#f59e0b; --green:#10b981;
+    --red:#ef4444; --text:#f1f0ff; --muted:#6b7280;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+  /* NAV */
+  .topbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 40px; background:var(--surface); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:100;
+  }
+  .logo {
+    font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800;
+    background:linear-gradient(135deg,#a855f7,#7c3aed);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    text-decoration:none;
+  }
+  .nav-links { display:flex; gap:10px; align-items:center; }
+  .nav-link {
+    padding:9px 18px; border:1px solid var(--border); border-radius:50px;
+    background:transparent; color:var(--text); font-family:'DM Sans',sans-serif;
+    font-size:0.88rem; cursor:pointer; transition:0.2s; text-decoration:none;
+    display:flex; align-items:center; gap:7px;
+  }
+  .nav-link:hover { background:var(--border); }
+  .nav-link.purple { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; }
+
+  /* LAYOUT */
+  .page-wrap { max-width:1100px; margin:0 auto; padding:40px 20px; display:grid; grid-template-columns:1fr 360px; gap:28px; align-items:start; }
+
+  /* CART ITEMS */
+  .cart-panel { background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+  .cart-head { padding:22px 28px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .cart-head h2 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:700; }
+  .clear-btn { background:transparent; border:1px solid rgba(239,68,68,0.3); color:var(--red); border-radius:8px; padding:6px 14px; font-family:'DM Sans',sans-serif; font-size:0.82rem; cursor:pointer; transition:0.2s; }
+  .clear-btn:hover { background:rgba(239,68,68,0.1); }
+
+  /* CART ITEM ROW */
+  .cart-item { display:flex; gap:18px; padding:22px 28px; border-bottom:1px solid var(--border); align-items:center; transition:0.2s; }
+  .cart-item:last-child { border-bottom:none; }
+  .cart-item:hover { background:rgba(124,58,237,0.03); }
+  .item-img { width:90px; height:90px; border-radius:14px; object-fit:cover; flex-shrink:0; background:var(--surface2); }
+  .item-body { flex:1; }
+  .item-name { font-weight:600; font-size:0.98rem; margin-bottom:4px; line-height:1.3; }
+  .item-brand { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+  .qty-row { display:flex; align-items:center; gap:12px; }
+  .qty-box { display:flex; align-items:center; gap:0; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .qty-btn { width:34px; height:34px; background:var(--surface2); border:none; color:var(--text); font-size:1rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; }
+  .qty-btn:hover { background:var(--accent); }
+  .qty-val { width:38px; text-align:center; font-weight:700; font-size:0.95rem; background:transparent; }
+  .remove-btn { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:0.85rem; padding:4px 8px; border-radius:6px; transition:0.2s; display:flex; align-items:center; gap:5px; }
+  .remove-btn:hover { color:var(--red); background:rgba(239,68,68,0.08); }
+  .item-right { text-align:right; flex-shrink:0; }
+  .item-price { font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem; color:var(--accent2); }
+  .item-mrp { font-size:0.78rem; color:var(--muted); text-decoration:line-through; margin-top:2px; }
+
+  /* EMPTY */
+  .empty-cart { text-align:center; padding:80px 40px; }
+  .empty-icon { font-size:4rem; margin-bottom:20px; opacity:0.3; }
+  .empty-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:700; margin-bottom:8px; }
+  .empty-sub { color:var(--muted); font-size:0.9rem; margin-bottom:28px; }
+  .shop-btn { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:12px; color:white; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.95rem; cursor:pointer; text-decoration:none; }
+
+  /* SUMMARY */
+  .summary-panel { background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; position:sticky; top:90px; }
+  .summary-head { padding:22px 24px; border-bottom:1px solid var(--border); }
+  .summary-head h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; }
+  .summary-body { padding:20px 24px; display:flex; flex-direction:column; gap:14px; }
+  .summary-row { display:flex; align-items:center; justify-content:space-between; font-size:0.9rem; }
+  .summary-row.total { font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem; color:var(--accent2); padding-top:12px; border-top:1px solid var(--border); margin-top:4px; }
+  .summary-row .label { color:var(--muted); }
+  .savings-chip { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.25); border-radius:8px; padding:10px 14px; font-size:0.83rem; color:var(--green); font-weight:600; text-align:center; }
+  .coupon-row { display:flex; gap:8px; }
+  .coupon-input { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:10px 14px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.88rem; outline:none; transition:0.2s; }
+  .coupon-input:focus { border-color:var(--accent); }
+  .coupon-btn { padding:10px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; color:var(--accent2); font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.85rem; cursor:pointer; transition:0.2s; white-space:nowrap; }
+  .coupon-btn:hover { background:var(--accent); color:white; border-color:var(--accent); }
+  .place-btn { width:100%; padding:16px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:14px; color:white; font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .place-btn:hover { opacity:0.92; transform:translateY(-1px); box-shadow:0 8px 24px rgba(124,58,237,0.35); }
+  .place-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:none; }
+  .secure-note { display:flex; align-items:center; justify-content:center; gap:6px; font-size:0.78rem; color:var(--muted); margin-top:6px; }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:28px; right:28px; background:var(--surface2); border:1px solid var(--accent); border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:10px; font-size:0.9rem; box-shadow:0 8px 30px rgba(0,0,0,0.4); transform:translateY(20px); opacity:0; transition:0.3s; z-index:999; pointer-events:none; }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  /* LOGIN MODAL */
+  .auth-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); z-index:2000; display:none; align-items:center; justify-content:center; }
+  .auth-overlay.open { display:flex; }
+  .auth-box { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:36px 32px; width:100%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,0.6); position:relative; }
+  .auth-logo { font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; background:linear-gradient(135deg,#a855f7,#7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-align:center; margin-bottom:4px; }
+  .auth-sub { text-align:center; color:var(--muted); font-size:0.88rem; margin-bottom:24px; }
+  .auth-alert { background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.3); border-radius:10px; padding:12px 16px; font-size:0.85rem; color:var(--accent2); margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+  .auth-tabs { display:flex; gap:0; border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:22px; }
+  .auth-tab { flex:1; padding:10px; text-align:center; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.88rem; cursor:pointer; background:transparent; border:none; color:var(--muted); transition:0.2s; }
+  .auth-tab.active { background:var(--accent); color:white; }
+  .auth-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.92rem; outline:none; transition:0.2s; margin-bottom:12px; }
+  .auth-input:focus { border-color:var(--accent); }
+  .auth-btn { width:100%; padding:14px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:12px; color:white; font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; cursor:pointer; transition:0.2s; margin-top:4px; }
+  .auth-btn:hover { opacity:0.9; }
+  .auth-close { position:absolute; top:16px; right:18px; background:none; border:none; color:var(--muted); font-size:1.2rem; cursor:pointer; }
+
+  @media(max-width:820px) {
+    .page-wrap { grid-template-columns:1fr; }
+    .topbar { padding:16px 20px; }
+    .cart-item { padding:16px 20px; gap:14px; }
+    .item-img { width:70px; height:70px; }
+    .summary-panel { position:static; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar">
+  <a href="index.html" class="logo">LuxeMart</a>
+  <div class="nav-links">
+    <a href="wishlist.html" class="nav-link"><i class="fa-regular fa-heart"></i> Wishlist</a>
+    <a href="account.html" class="nav-link"><i class="fa-regular fa-user"></i> Account</a>
+    <a href="index.html" class="nav-link purple"><i class="fa-solid fa-store"></i> Shop</a>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <!-- CART ITEMS -->
+  <div class="cart-panel">
+    <div class="cart-head">
+      <h2>🛒 My Cart <span id="cartCountHead" style="color:var(--muted);font-size:0.9rem;font-weight:400;margin-left:6px"></span></h2>
+      <button class="clear-btn" onclick="clearCart()"><i class="fa-solid fa-trash" style="font-size:0.75rem;margin-right:4px"></i>Clear All</button>
+    </div>
+    <div id="cartItems"></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-panel">
+    <div class="summary-head"><h3>Order Summary</h3></div>
+    <div class="summary-body">
+      <div class="summary-row">
+        <span class="label">Subtotal</span>
+        <span id="subtotal">₹0</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Discount</span>
+        <span id="discount" style="color:var(--green)">-₹0</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Delivery</span>
+        <span id="delivery" style="color:var(--green)">FREE</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="totalPrice">₹0</span>
+      </div>
+      <div class="savings-chip" id="savingsChip" style="display:none">
+        🎉 You save <span id="savingsAmt"></span> on this order!
+      </div>
+      <div class="coupon-row">
+        <input class="coupon-input" placeholder="Enter coupon code" id="couponInput">
+        <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+      </div>
+      <button class="place-btn" id="placeBtn" onclick="placeOrder()">
+        <i class="fa-solid fa-bag-shopping"></i> Place Order
+      </button>
+      <div class="secure-note"><i class="fa-solid fa-lock" style="font-size:0.72rem"></i> 100% Secure Checkout</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i><span id="toastMsg"></span></div>
+
+<!-- LOGIN MODAL -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="auth-logo">LuxeMart</div>
+    <div class="auth-sub">Sign in to complete your order</div>
+    <div class="auth-alert"><i class="fa-solid fa-lock"></i> Please login to place your order securely</div>
+    <div id="authError" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:10px 14px;font-size:0.83rem;color:#ef4444;margin-bottom:14px;display:none"></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+    <!-- LOGIN FORM -->
+    <div id="formLogin">
+      <input class="auth-input" type="email" id="cartLoginEmail" placeholder="Email address">
+      <input class="auth-input" type="password" id="cartLoginPass" placeholder="Password">
+      <button class="auth-btn" onclick="cartLogin()"><i class="fa-solid fa-arrow-right-to-bracket" style="margin-right:8px"></i>Sign In & Place Order</button>
+    </div>
+    <!-- SIGNUP FORM -->
+    <div id="formSignup" style="display:none">
+      <input class="auth-input" type="text" id="cartSignupName" placeholder="Your name">
+      <input class="auth-input" type="email" id="cartSignupEmail" placeholder="Email address">
+      <input class="auth-input" type="password" id="cartSignupPass" placeholder="Create password">
+      <button class="auth-btn" onclick="cartSignup()"><i class="fa-solid fa-user-plus" style="margin-right:8px"></i>Create Account & Order</button>
+    </div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let couponApplied = false;
+
+function renderCart() {
+  const el = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    document.getElementById('cartCountHead').textContent = '';
+    document.getElementById('placeBtn').disabled = true;
+    el.innerHTML = `
+      <div class="empty-cart">
+        <div class="empty-icon">🛒</div>
+        <div class="empty-title">Your cart is empty</div>
+        <div class="empty-sub">Add items you love to your cart. Start shopping!</div>
+        <a href="index.html" class="shop-btn"><i class="fa-solid fa-store"></i> Start Shopping</a>
+      </div>`;
+    updateSummary();
+    return;
+  }
+  document.getElementById('placeBtn').disabled = false;
+  document.getElementById('cartCountHead').textContent = `(${cart.length} item${cart.length > 1 ? 's' : ''})`;
+
+  el.innerHTML = cart.map((item, i) => `
+    <div class="cart-item">
+      <img class="item-img" src="${item.img || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200'}" onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200'" alt="${item.name}">
+      <div class="item-body">
+        <div class="item-name">${item.name}</div>
+        <div class="item-brand">${item.brand || 'LuxeMart'}</div>
+        <div class="qty-row">
+          <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty(${i}, -1)"><i class="fa-solid fa-minus" style="font-size:0.65rem"></i></button>
+            <span class="qty-val">${item.qty || 1}</span>
+            <button class="qty-btn" onclick="changeQty(${i}, 1)"><i class="fa-solid fa-plus" style="font-size:0.65rem"></i></button>
+          </div>
+          <button class="remove-btn" onclick="removeItem(${i})"><i class="fa-solid fa-trash"></i> Remove</button>
+        </div>
+      </div>
+      <div class="item-right">
+        <div class="item-price">₹${((item.price || 0) * (item.qty || 1)).toLocaleString()}</div>
+        ${item.mrp && item.mrp > item.price ? `<div class="item-mrp">₹${(item.mrp * (item.qty || 1)).toLocaleString()}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+  updateSummary();
+}
+
+function changeQty(i, delta) {
+  cart[i].qty = Math.max(1, (cart[i].qty || 1) + delta);
+  save();
+}
+
+function removeItem(i) {
+  cart.splice(i, 1);
+  save();
+  showToast('Item removed from cart');
+}
+
+function clearCart() {
+  if (!cart.length) return;
+  if (confirm('Clear all items from cart?')) {
+    cart = [];
+    save();
+    showToast('Cart cleared');
+  }
+}
+
+function updateSummary() {
+  let subtotal = cart.reduce((s, item) => s + (item.mrp || item.price || 0) * (item.qty || 1), 0);
+  let actual   = cart.reduce((s, item) => s + (item.price || 0) * (item.qty || 1), 0);
+  let discount = subtotal - actual;
+  if (couponApplied) { discount += Math.round(actual * 0.1); actual = Math.round(actual * 0.9); }
+  let total = actual;
+  document.getElementById('subtotal').textContent   = '₹' + (subtotal || actual).toLocaleString();
+  document.getElementById('discount').textContent   = '-₹' + discount.toLocaleString();
+  document.getElementById('totalPrice').textContent = '₹' + total.toLocaleString();
+  const sc = document.getElementById('savingsChip');
+  if (discount > 0) { sc.style.display = 'block'; document.getElementById('savingsAmt').textContent = '₹' + discount.toLocaleString(); }
+  else sc.style.display = 'none';
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  if (code === 'LUXE10' || code === 'SAVE10') {
+    couponApplied = true;
+    updateSummary();
+    showToast('🎉 Coupon applied! Extra 10% off');
+  } else if (code) {
+    showToast('Invalid coupon code');
+  }
+}
+
+function isLoggedIn() {
+  try { return !!JSON.parse(localStorage.getItem('luxemart_user')); } catch { return false; }
+}
+
+function placeOrder() {
+  if (!cart.length) return;
+
+  // ── LOGIN GUARD ──
+  if (!isLoggedIn()) {
+    document.getElementById('authOverlay').classList.add('open');
+    return;
+  }
+  confirmPlaceOrder();
+}
+
+function confirmPlaceOrder() {
+  const orders = JSON.parse(localStorage.getItem('orders')) || [];
+  const orderId = '#LX-' + Math.floor(1000 + Math.random() * 9000);
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+  const user = JSON.parse(localStorage.getItem('luxemart_user') || '{}');
+
+  orders.push({
+    id: orderId,
+    date: dateStr,
+    status: 'processing',
+    amount: cart.reduce((s, item) => s + (item.price || 0) * (item.qty || 1), 0),
+    items: cart.map(item => ({
+      name: item.name,
+      brand: item.brand || 'LuxeMart',
+      size: item.size || 'M',
+      price: item.price,
+      img: item.img
+    })),
+    track: 1,
+    address: user.address || '123, Sector 7, New Delhi'
+  });
+
+  localStorage.setItem('orders', JSON.stringify(orders));
+  localStorage.removeItem('cart');
+  cart = [];
+  renderCart();
+  showToast('🎉 Order placed successfully!');
+  setTimeout(() => window.location.href = 'orders.html', 1500);
+}
+
+// ── Auth modal functions ──
+function closeAuthModal() {
+  document.getElementById('authOverlay').classList.remove('open');
+  hideAuthError();
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+
+function hideAuthError() {
+  const el = document.getElementById('authError');
+  if (el) el.style.display = 'none';
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('formLogin').style.display  = tab === 'login'  ? 'block' : 'none';
+  document.getElementById('formSignup').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+  hideAuthError();
+}
+
+function cartLogin() {
+  const email = document.getElementById('cartLoginEmail').value.trim();
+  const pass  = document.getElementById('cartLoginPass').value;
+  if (!email || !pass) { showToast('Please enter email and password'); return; }
+
+  const stored = JSON.parse(localStorage.getItem('luxemart_user') || 'null');
+
+  if (stored) {
+    // Account exists — check if email matches
+    if (stored.email.toLowerCase() === email.toLowerCase()) {
+      // ✅ Correct email — login success
+      closeAuthModal();
+      showToast('Welcome back, ' + stored.firstName + '! Placing order...');
+      setTimeout(confirmPlaceOrder, 800);
+    } else {
+      // ❌ Wrong email
+      showAuthError('Wrong email. Use the email you registered with, or create a new account.');
+    }
+  } else {
+    // No account registered yet — suggest signup
+    showAuthError('No account found. Please create an account first using the "Create Account" tab.');
+  }
+}
+
+function cartSignup() {
+  const name  = document.getElementById('cartSignupName').value.trim();
+  const email = document.getElementById('cartSignupEmail').value.trim();
+  const pass  = document.getElementById('cartSignupPass').value;
+  if (!name || !email || !pass) { showToast('Please fill all fields'); return; }
+
+  const user = { firstName: name, email, joinDate: new Date().toLocaleDateString() };
+  localStorage.setItem('luxemart_user', JSON.stringify(user));
+  closeAuthModal();
+  showToast('Account created! Placing order...');
+  setTimeout(confirmPlaceOrder, 800);
+}
+
+function save() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  if (window.LuxeAPI && window.LuxeAPI.Users && localStorage.getItem('luxemart_token')) {
+      window.LuxeAPI.Users.updateCart(cart).catch(e=>console.log(e));
+  }
+}
+
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+renderCart();
+</script>
+</body>
+</html>

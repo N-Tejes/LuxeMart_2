@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Wear Collection — LuxeMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg:#07070f; --surface:#0f0f1c; --surface2:#161628; --border:#1e1e35;
+    --accent:#c0872f; --accent2:#e4a845; --purple:#7c3aed; --text:#f1f0ff; --muted:#6b7280;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); }
+
+  /* NAV */
+  .navbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 36px; background:var(--surface); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:100;
+  }
+  .logo {
+    font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    text-decoration:none;
+  }
+  .nav-right { display:flex; gap:10px; align-items:center; }
+  .nav-btn {
+    padding:9px 18px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--text); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; cursor:pointer; transition:0.2s; text-decoration:none;
+    display:flex; align-items:center; gap:7px;
+  }
+  .nav-btn:hover { background:var(--border); }
+  .cart-btn { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; position:relative; }
+  .cart-count {
+    position:absolute; top:-6px; right:-6px; width:18px; height:18px;
+    background:#ef4444; border-radius:50%; font-size:0.65rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center; border:2px solid var(--surface);
+  }
+
+  /* HERO */
+  .hero {
+    position:relative; overflow:hidden; height:360px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:linear-gradient(135deg,#1a0a02,#2a1205,#0d0009);
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1400&q=80') center/cover;
+    opacity:0.25;
+  }
+  .hero-content { position:relative; z-index:1; }
+  .hero-tag {
+    display:inline-block; padding:5px 16px; border-radius:50px;
+    background:rgba(228,168,69,0.2); border:1px solid rgba(228,168,69,0.4);
+    color:var(--accent2); font-size:0.78rem; font-weight:600; letter-spacing:0.1em;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+  .hero-title {
+    font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; margin-bottom:8px;
+    background:linear-gradient(135deg,#fff,var(--accent2),#fff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .hero-sub { color:rgba(255,255,255,0.6); font-size:1rem; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display:flex; gap:10px; padding:24px 36px; flex-wrap:wrap; align-items:center;
+    border-bottom:1px solid var(--border); background:var(--surface);
+  }
+  .filter-btn {
+    padding:9px 20px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; cursor:pointer; transition:0.2s; font-weight:500;
+  }
+  .filter-btn:hover { border-color:var(--accent); color:var(--accent2); }
+  .filter-btn.active {
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    border:none; color:white; font-weight:600;
+  }
+  .item-count { margin-left:auto; font-size:0.82rem; color:var(--muted); }
+
+  /* GRID */
+  .section { padding:32px 36px; }
+  .section-title {
+    font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:700; margin-bottom:4px;
+  }
+  .section-sub { color:var(--muted); font-size:0.85rem; margin-bottom:24px; }
+  .products-grid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px;
+  }
+
+  /* CARD */
+  .product-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    overflow:hidden; transition:0.3s; cursor:pointer;
+  }
+  .product-card:hover { transform:translateY(-5px); border-color:rgba(228,168,69,0.3); box-shadow:0 16px 40px rgba(0,0,0,0.3); }
+  .card-img-wrap { position:relative; overflow:hidden; }
+  .product-card img { width:100%; height:280px; object-fit:cover; transition:0.4s; display:block; }
+  .product-card:hover img { transform:scale(1.06); }
+  .badge {
+    position:absolute; top:12px; left:12px; padding:4px 10px; border-radius:20px;
+    font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .badge-sale { background:#ef4444; color:white; }
+  .badge-hot { background:var(--accent); color:white; }
+  .badge-new { background:#7c3aed; color:white; }
+  .badge-trend { background:#0891b2; color:white; }
+  .wish-btn {
+    position:absolute; top:12px; right:12px; width:36px; height:36px;
+    border-radius:50%; background:rgba(7,7,15,0.7); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:0.2s; font-size:0.9rem; color:var(--muted);
+  }
+  .wish-btn:hover, .wish-btn.wishlisted { color:#ef4444; border-color:#ef4444; }
+  .prod-info { padding:16px; }
+  .prod-brand { font-size:0.72rem; color:var(--accent2); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
+  .prod-name { font-size:0.95rem; font-weight:600; margin-bottom:10px; line-height:1.4; }
+  .price-row { display:flex; align-items:baseline; gap:8px; margin-bottom:14px; }
+  .price { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; color:var(--accent2); }
+  .original { font-size:0.8rem; color:var(--muted); text-decoration:line-through; }
+  .discount { font-size:0.75rem; font-weight:700; color:#10b981; }
+  .rating-row { display:flex; align-items:center; gap:6px; margin-bottom:14px; }
+  .stars { color:var(--accent2); font-size:0.75rem; }
+  .rating-num { font-size:0.78rem; color:var(--muted); }
+  .add-cart-btn {
+    width:100%; padding:11px; border:none; border-radius:12px; cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.88rem; transition:0.2s;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .add-cart-btn:hover { opacity:0.9; transform:translateY(-1px); }
+  .add-cart-btn.added { background:linear-gradient(135deg,#10b981,#059669); }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:28px; right:28px; background:var(--surface2);
+    border:1px solid var(--accent); border-radius:14px; padding:14px 20px;
+    display:flex; align-items:center; gap:10px; font-size:0.9rem;
+    box-shadow:0 8px 30px rgba(0,0,0,0.4); transform:translateY(20px);
+    opacity:0; transition:0.3s; z-index:999; pointer-events:none;
+  }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  @media(max-width:700px){
+    .navbar{padding:14px 20px;} .hero{height:260px;} .hero-title{font-size:2rem;}
+    .filter-bar{padding:16px 20px;} .section{padding:24px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <a href="index.html" class="logo">LuxeMart</a>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="nav-btn" onclick="window.location.href='wishlist.html'"><i class="fa-regular fa-heart"></i></button>
+    <button class="nav-btn cart-btn" onclick="window.location.href='cart.html'">
+      <i class="fa-solid fa-bag-shopping"></i> Cart
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✨ Professional Attire</div>
+    <div class="hero-title">💼 Office Wear Collection</div>
+    <div class="hero-sub">Elevate your workwardrobe</div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="showSection('all',this)">🌟 All</button>
+  <button class="filter-btn" onclick="showSection('men',this)">👨 Men</button>
+  <button class="filter-btn" onclick="showSection('women',this)">👩 Women</button>
+  <button class="filter-btn" onclick="showSection('shoes',this)">👟 Shoes</button>
+  
+  <span class="item-count" id="itemCount">24 items</span>
+</div>
+
+<!-- ALL PRODUCTS (shown by default, hidden per filter) -->
+<div class="section">
+  <div id="allSection">
+    <div class="section-title">👨 Men's Office Collection</div>
+    <div class="section-sub">Sherwanis, suits & more for the groom</div>
+    <div class="products-grid" id="menGrid"></div>
+    <div class="section-title" style="margin-top:36px">👩 Women's Office Collection</div>
+    <div class="section-sub">Lehengas, sarees & bridal essentials</div>
+    <div class="products-grid" id="womenGrid"></div>
+    <div class="section-title" style="margin-top:36px">👟 Office Shoes</div>
+    <div class="section-sub">From mojaris to stilettos</div>
+    <div class="products-grid" id="shoesGrid"></div>
+    
+  </div>
+  <div id="filterSection" style="display:none">
+    <div class="products-grid" id="filterGrid"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check" style="color:#10b981"></i>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<script>
+const products = {
+  men: [
+    {"id": "om1", "name": "Blazer + White Shirt ", "brand": "Puma", "price": 2999, "original": 5338, "discount": 43, "rating": 4.5, "reviews": 2431, "badge": "new", "img": "https://images.unsplash.com/photo-1610652492500-ded49ceeb378"},
+    {"id": "om2", "name": "Black Blazer Set", "brand": "Zara", "price": 4999, "original": 9237, "discount": 45, "rating": 4.8, "reviews": 1805, "badge": "trend", "img": "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc"},
+    {"id": "om3", "name": "Premium Suitt", "brand": "H&M", "price": 2399, "original": 4574, "discount": 47, "rating": 4.1, "reviews": 1163, "badge": "new", "img": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7"},
+    {"id": "om4", "name": "Normal Wear", "brand": "TrendSetter", "price": 5999, "original": 9413, "discount": 36, "rating": 4.7, "reviews": 2116, "badge": "hot", "img": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"},
+    {"id": "om5", "name": "Black Suit  ", "brand": "LuxeMart", "price": 3899, "original": 7257, "discount": 46, "rating": 4.8, "reviews": 2256, "badge": "trend", "img": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d"},
+    {"id": "om6", "name": "Luxury Office Look", "brand": "Zara", "price": 5499, "original": 8366, "discount": 34, "rating": 4.7, "reviews": 2167, "badge": "new", "img": "https://images.unsplash.com/photo-1504593811423-6dd665756598"},
+    {"id": "om7", "name": "Brown Formal Suit", "brand": "TrendSetter", "price": 5299, "original": 8983, "discount": 41, "rating": 4.7, "reviews": 2456, "badge": "sale", "img": "https://blackberrys.com/cdn/shop/files/Formal_Brown_Solid_Shirt_Sofk01-MSNM2663C1NS24FN-image1_1600x.jpg?v=1714400518"},
+    {"id": "om8", "name": "Office Shirt Combo", "brand": "Nike", "price": 2699, "original": 4328, "discount": 37, "rating": 4.8, "reviews": 136, "badge": "", "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSRwJotMUzQp-V2jPjsiwNgTZP32FOkdnBK8YSXY-V7GZm6L7rm5DNcZ2atQWR7eYyhTWYYBXC8CDqBFSec6kESzL4SNHco"},
+  ],
+  women: [
+    {"id": "ow1", "name": "White Formal Top", "brand": "TrendSetter", "price": 2299, "original": 3901, "discount": 41, "rating": 4.8, "reviews": 1395, "badge": "trend", "img": "https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/7/1/71981d8AHTSWRGFE24587_1.jpg?rnd=20200526195200&tr=w-720"},
+    {"id": "ow2", "name": "Women Blazer Set", "brand": "Nike", "price": 4299, "original": 6035, "discount": 28, "rating": 4.7, "reviews": 2113, "badge": "hot", "img": "https://m.media-amazon.com/images/I/51y69VdCKXL._SY679_.jpg"},
+    {"id": "ow3", "name": "Office Kurti Set", "brand": "Zara", "price": 2999, "original": 4842, "discount": 38, "rating": 4.7, "reviews": 561, "badge": "", "img": "https://www.maheejaipur.com/cdn/shop/files/DSC_9694_720x.jpg?v=1771862653"},
+    {"id": "ow4", "name": "Grey Office Dress", "brand": "TrendSetter", "price": 3499, "original": 6485, "discount": 46, "rating": 4.4, "reviews": 2195, "badge": "sale", "img": "https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/2/d/2d8a7c1VWDRFRGFV61410_1.jpg?rnd=20200526195200&tr=w-720"},
+    {"id": "ow5", "name": "Formal Black Top", "brand": "Puma", "price": 2599, "original": 4971, "discount": 47, "rating": 4.8, "reviews": 2483, "badge": "trend", "img": "https://www.fablestreet.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0486%2F0634%2F7416%2Ffiles%2FFSSH327BLCK_84e08192-fde6-44ca-9afd-e30825e943bd.jpg%3Fv%3D1747817773&w=1080&q=75"},
+    {"id": "ow6", "name": "Luxury Office Suit", "brand": "Puma", "price": 4699, "original": 6742, "discount": 30, "rating": 4.5, "reviews": 1602, "badge": "sale", "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVrZH5crxiCZ0IGn69C7hDn2Q3nTg0OelhAQ&s"},
+    {"id": "ow7", "name": "Formal Shirt + Pant", "brand": "UrbanStyle", "price": 2899, "original": 5185, "discount": 44, "rating": 4.3, "reviews": 1864, "badge": "trend", "img": "https://i.pinimg.com/474x/b9/3e/ff/b93eff8043bab620ae2f278ff2f86786.jpg"},
+    {"id": "ow8", "name": "Premium Office Combo", "brand": "TrendSetter", "price": 4999, "original": 9637, "discount": 48, "rating": 4.1, "reviews": 1892, "badge": "", "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbjYVScv5Oyc7BTErqPh94mtvXmEevMFw07wYI4wbfuS6lIHSULKkabe8&s"},
+  ],
+  shoes: [
+    {"id": "os1", "name": "Black Leather Shoe", "brand": "Clarks", "price": 2999, "original": 5711, "discount": 47, "rating": 4.8, "reviews": 2101, "badge": "", "img": "data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADrbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAAAAAAAOcGl0bQAAAAAAAQAAAB5pbG9jAAAAAEQAAAEAAQAAAAEAAAETAAAMCQAAAChpaW5mAAAAAAABAAAAGmluZmUCAAAAAAEAAGF2MDFDb2xvcgAAAABqaXBycAAAAEtpcGNvAAAAFGlzcGUAAAAAAAAAmAAAAL8AAAAQcGl4aQAAAAADCAgIAAAADGF2MUOBAAwAAAAAE2NvbHJuY2x4AAIAAgAGgAAAABdpcG1hAAAAAAAAAAEAAQQBAoMEAAAMEW1kYXQSAAoKGB3l75ggQEDQgDL4FxIAAooooUDcaghbWet5z4PhKcbsO+r3qLf88Ka8prDxLmNnBQD6g6eUTHOuosjF43dXU1ml7DhJCeVq9ShwMvFiEeWFw4mMnKsDXBzBqoDWVH9Ti1Y+4Y/p4ch4oL/FqRrU5x6PbGCGkQeqaahLgMzoEelkr63BdCdubbhAbWgdqhgURVIwQ2dHGng4vttG1wzTzN6eKIkNOrEdMQP56OztCQo4fyuGy2G5Lo64kxmQSKJvGdd9+1xUb2b8YuCC6Mz+JlAlWd1wygg143Ka+7C7LtwReAMcfleZ0qVzBdFbNRj+rhKrWfQct+ECcfd3XXTzw/hn4m03UO3s1YiOrB++L2rPIm65vneP1Ko/iEhejlun48qWaHG/Wh8pHdfASzu4vb5iapdxATTjO9I/OIn4PIKilp2eXPZBzZenhLXFbDMLONCRllgGK5G1CvbBzmeCJlanKH1F77AiFFSUrHO+XSLZMhLX/07X1ZJIZXDO5iB0LPZ790mNBS0zJmDtIgCvY4oVysxb1ROArU3UvVBQpfJP4DApBz9Nx9ovqHSpx/JtDIHai8E1xHU9KZvTsj/kVSBDFG7Hqs20HuTLziCCHdvqQsJaxOSwMYtTYbTg+FmhujRtFBsZHIzjAGO1arXQKdiujXfbb1ZCanCPaiwqu0IVToLHGUiXnZc5X9J4RnQA57goWza1xRs44REg94pEh6nML5yUJArRnkofaaaiYReUFcQKjWNXMqDgrkpv6gETE40T3ZN3mkUjS+ctfxSIV5qcv1+RtzNW/ykYVdkFLML1mtHb24SatKs/bxtBTNuprq1hk4ozsJoLL9DAAG8MSAvcwH9GQcMi3QKPGRmlvenx73U+F/wcYsAjZaJ8leOvg0hoy1hwd0uoGW8Sk9nMm6/ZJ0DmxU9XuAhnoBISXJRB2ga30/pjHx62susdcE4eBZ2sUW4uTzVjSzEoUGklqjA4b6Nb9UUsx6HcDMQ5QbEa83kDFZkJ5ro2tTgpt8vMEp69pHuLtX2iGJUPZkcz5CSJgMUuwUtkExPLk6f3lPpbP595qEEoE5WiACygBZUFwPHlfqTHk+JPQNu+uo8ALIu8Fc2z7Aw0xetB4NgEBbS3Zoi/4tz/DkZ+b7/hmyEIrwDguVPls6LjE6xOxKWu7EeOju/4WUbIAtTzkuztiExmr353T3AvszJ1ShDrERp1ntLIJvnSSnns9/tmVqwA5ev2uKDutO7EeRvvlPHO8QzQ0mAxghsFryVKoN+ZEQ5jPO6KPa8VfIr2bqKer209fUCKjL4UcxEq8f+WWZe7cL5SqQEb9FHdkZUFKX2BwDCcFZadaLEcStqiZMc3D9DGLSdfPBChG9VkinuPT+SygfwXp6G8JYrzyMC6+X4gjOD6Dd9sFO3dX5UUFjJ+hrZwMzHq22feYJEmR+zhZgUlEphPpg0YJgvspTz5me9WU50QH1d7CnHrUc2jycectgOlf3uD9bwNcdm5lPNRmTS9vMsynv2Gfo4YTkMcFWU6TqIPABMdM7crm2lFjWrCME73we3exDfJNJo6zudbZ6IeYWIBvGSQTgMzfI5bRO1InxRB/xZf2U5KmobynJU8KYq6svnJQz/XOhN6+GocAMof30e1FTNfgOzt8FDE5uB9Nl687dp0IWo7iDMm7N7pZ73BmwZaLXQD2Cip43UrzC4FQQOpvgmE9iewyXfGxbzlpLaVHDNdDk/14bQ/K8fLYwlxo6nYdK+hSjnugbv9fYV+MReH35yaImit+fKy7fcLEWaIXf7U6kMCBvr9WieqdbjDNYzpcKm9YOFOqAEzevXdf1//lyfAhbf6YyQwHI6hQJ22CsSy3Y+GY3hPj+eqkJG5v3nxeH/BufX9vOql93L4hkh3raRo4a6hCfRQKNREqXdFUAaMUJhWvO0pAnD1KPsqzPJ082QA2emaVAUKX8wEGmFPqABD6UNiyv1i302je909+HC02tznCExgnjFuoZV/ncK7mcwPrg/haP6cW+8cp2UaDwfH5msVIapg8jUblGfW9VkjPIYVh0lpUdIzmyhzT2h3hHmWxxz5jAna7cYQn1MwjvbKNc5vojPg86FS+8snfaJDTZlO2YSOGjVxDS6YFLUIDuxTwkYTW+9nQ6aKfhTnnmF2KFFxejfL7ritFqMHl9bdyfJWiTRLeBebviIRJrp5BDk95fUhKus2Ynj/CeJOveAEqQh4IO42RbPij5QIhcfl6/43ordNoNI8SRfyVr6uyTfv+cWYF8P5cA33vWLx6EBZCbDnkmFdwKxBuadHI7z2b/eb5o22sWg73udFxY98FzARCbL7fD835FFdbmk4J6NMdimt1C71pPuRMbvLLEE4QXbCp45yNlDbz+l1ZpvuBFlrgsOuf6sora92OQ8+dv1ApiSbuxyWhD2IFFwz6c72WPiFgpQ5O8lsoLy+EmjsM6LXnNGfu6YkuO/shONag9beVkQMQ+otbxr1FOKjnVSh/qfEn9RooEnOisMjhmIa0lkda3H+3Dj6iLNeM6XZt89mpOo0R+Gne+BpU88a3BRwmN/d0QBNjefBGmqFgVQxibudBUqomJbLu+Vu5F2m6eSUpJCZKqsPLSFNhW8zyOimYEupiEDD5TZD2Vyb1XR4ITQkVXlVPfYhMuRpg3ZYziOt6ve21xg95xSZLpBLw2U1ijJ2glUUgKdm5na79aREG7gpD79OhNPk9WfjmPf/aPwGCFR87fV9VE7MWLba20Nf99kl3KvmhDGkygGvPACnjh8RRqhJf9j94wJThpGhahSEkcafKksrHid/Az24wtJ8pS7ENflT4jskqa2Hc0f3PhZJryhQbFYmxwq8BFeq5xOfaSAo15XdkA8Je0gXha3qubDkmFmcoszbZvboKawFYbslXm4FPUkqVVzGO28E8GkNTQ4Wywr828+1bI4xT/hofQQg8V7DX5krzYFkEpd2Fra7jZ7A9k4QnMYGeMnFip2AkVD/xB91D6SjSPbE6Fa5pxb7UeARHBvsGJFbi8DOe89xqcl4ju4Ac9odojCcoGr5b1pv6vpY1dztGx9G/G7bjDPJx+jio8rZevcRKbodOW31kImrKnGE/3Hc+XBoWB0Dz2v4KCROkVn/iF2z2MiLJPcXTWWT6YAoWksXd+i6bXRjBI+wLvpVmcPjDEXxTC0Vmb7GVWDRui0hZoUr+NfLhqbdOtZRkkG9jeWjuT6FS/tsTLH00QK6IIjKehx2PlK5cdf8Qx63aGHBsvHy9bqVH3UNF7JRQBTXeexuSIqf/PWx5DNOx2boCrWh4Jfg7ZzStby6qjSlNxuq6wsy6RrxpLW2NVLNwSQmf+HxrGdCv+D+L8G39Cp+pnZuOYNWpxw3zrgA/wlOiaApHCRWQFZp7MxXxBasrV9PFOMfqE+oPSjD8Kwyk7eTQuueIdiJO6Zws8xZUHQLh3oMELk6oK2ZfRviqA4rO4VEuD2Ov1X7Kf+PJq3hD9wgYHUQxJ4mxd9g3JUMulEcJ92q6kUkUtoVuCoK93zGmFw2a7dIHR+epxs+OeApbvqJJB846cXNi0KgyzX6bZmDaNS/sklmvlGx2bhn7DSH/taP8ds1REQIWhhohkrC3erTxbbPnpfmSEQ3moIl7KfgUcON9o0ADn1K6c+Wa1AcHHGCtyUrysjQOqdYrmHStwhlUDELdLiSj1zX9pkqiW8mhhNYrqmYV0AD0/+hJ49Wl7MEnBuRX5bXQmBpG0cL0tKr0neUKH1OMeP98TA5kwTTs6G7G98dAAWEEIt4gGRGIWRwRCAJE/7DsltKErCXws4xdlrkiET4NEM3jRSAAr8DgUft1a/6nEjVhuZ1gDVoccMF8W53PZ7wV42OG5K4T3/w0beVWTA+7K9mdGS/qShb47CCuwAb5KiOtFQgmfA+6+MmNCJAdkFBfyzYrF8aRXVrX7nwq8hKG52aATM7g/U83QW9uXrFFqCKAJQNGqcFjJ1lWhU2zLB6CRwLPkuKTVaFU2z96or3t7oj90xcgZJ7vknZCvi98uyyLP/Q8UkoXgAaJ1sEFjWmepIu656vgBOU1HqV0XUIIyH9CgBHnbcI9daBtvubcJDn1UA="},
+    {"id": "os2", "name": "Brown Formal Shoe", "brand": "Clarks", "price": 3299, "original": 5720, "discount": 42, "rating": 4.0, "reviews": 2128, "badge": "sale", "img": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQm98aepSGBsPy5imTD5Mh3cP17t0eNjOcF399MZSYl6xnMmzEHoeeF6bt5hvdHP_8-h387CiDFXvcp6K4bkosCmUx9z83zt7d6M2Nsxb_F4_fx8Mapkr5Sdw"},
+    {"id": "os3", "name": "Women Office Heel", "brand": "Nike", "price": 2799, "original": 5399, "discount": 48, "rating": 4.2, "reviews": 2897, "badge": "sale", "img": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2"},
+    {"id": "os4", "name": "White Office Sneaker", "brand": "Adidas", "price": 2599, "original": 4481, "discount": 41, "rating": 4.4, "reviews": 1174, "badge": "hot", "img": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"},
+    {"id": "os5", "name": "Premium Loafer", "brand": "Puma", "price": 3499, "original": 6906, "discount": 49, "rating": 4.4, "reviews": 2261, "badge": "trend", "img": "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111"},
+    {"id": "os6", "name": "Luxury Leather Shoe", "brand": "Adidas", "price": 3899, "original": 7332, "discount": 46, "rating": 4.4, "reviews": 1932, "badge": "sale", "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2"},
+    {"id": "os7", "name": "Women Classic Heel", "brand": "Puma", "price": 2999, "original": 4602, "discount": 34, "rating": 4.7, "reviews": 644, "badge": "sale", "img": "https://images.unsplash.com/photo-1560769629-975ec94e6a86"},
+    {"id": "os8", "name": "Office Black Shoe", "brand": "Nike", "price": 3199, "original": 5124, "discount": 37, "rating": 4.2, "reviews": 879, "badge": "sale", "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTbfhOIlgu0Zig4OB1IajaPa_Pmb-GyUTmNb7V3LDy6FR-zsf8nsrxlNnxxobrTxN0-GlyoAkFH0xeJeNBCR8aFpXR2b_jVMJNprvksEhA"},
+  ],
+};
+
+// ── Cart ──
+
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+function updateCartBadge() { document.getElementById('cartCount').textContent = cart.length; }
+
+function addToCart(id, btn) {
+  let allProducts = [...products.men, ...products.women, ...products.shoes, ];
+  let item = allProducts.find(p => p.id === id);
+  if(!item) return;
+  let exists = cart.find(c => c.id === id);
+  if(!exists) {
+    cart.push({ id: item.id, name: item.name, price: item.price, img: item.img });
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  btn.innerHTML = '<i class="fa-solid fa-check"></i> Added!';
+  btn.classList.add('added');
+  updateCartBadge();
+  showToast(item.name + ' added to cart!');
+}
+
+// ── Wishlist ──
+let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+function toggleWish(id, btn) {
+  let allProducts = [...products.men, ...products.women, ...products.shoes, ];
+  let item = allProducts.find(p => p.id === id);
+  let idx = wishlist.findIndex(w => w.id === id);
+  if(idx === -1) {
+    wishlist.push({ id: item.id, name: item.name, price: item.price, image: item.img });
+    btn.classList.add('wishlisted');
+    showToast('Added to wishlist ❤️');
+  } else {
+    wishlist.splice(idx, 1);
+    btn.classList.remove('wishlisted');
+    showToast('Removed from wishlist');
+  }
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+}
+
+// ── Render card ──
+function renderCard(p) {
+  let stars = Array(Math.round(p.rating)).fill('<i class="fa-solid fa-star"></i>').join('') +
+              Array(5-Math.round(p.rating)).fill('<i class="fa-regular fa-star"></i>').join('');
+  let inWish = wishlist.some(w => w.id === p.id);
+  let inCart = cart.some(c => c.id === p.id);
+  return `
+    <div class="product-card">
+      <div class="card-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500'">
+        ${p.badge ? `<span class="badge badge-${p.badge}">${p.badge==='hot'?'🔥 Hot':p.badge==='sale'?'Sale':p.badge==='new'?'✨ New':p.badge==='trend'?'📈 Trend':''}</span>` : ''}
+        <button class="wish-btn ${inWish?'wishlisted':''}" id="wish-${p.id}" onclick="toggleWish('${p.id}',this)">
+          <i class="fa-${inWish?'solid':'regular'} fa-heart"></i>
+        </button>
+      </div>
+      <div class="prod-info">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="price-row">
+          <span class="price">₹${p.price.toLocaleString()}</span>
+          <span class="original">₹${p.original.toLocaleString()}</span>
+          <span class="discount">${p.discount}% off</span>
+        </div>
+        <div class="rating-row">
+          <span class="stars">${stars}</span>
+          <span class="rating-num">${p.rating} (${p.reviews.toLocaleString()})</span>
+        </div>
+        <button class="add-cart-btn ${inCart?'added':''}" id="cart-${p.id}" onclick="addToCart('${p.id}',this)">
+          <i class="fa-solid fa-${inCart?'check':'bag-shopping'}"></i>
+          ${inCart ? 'Added!' : 'Add to Cart'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ── Sections ──
+function renderAll() {
+  document.getElementById('menGrid').innerHTML = products.men.map(renderCard).join('');
+  document.getElementById('womenGrid').innerHTML = products.women.map(renderCard).join('');
+  document.getElementById('shoesGrid').innerHTML = products.shoes.map(renderCard).join('');
+  
+  updateItemCount();
+}
+
+function showSection(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(type === 'all') {
+    document.getElementById('allSection').style.display = '';
+    document.getElementById('filterSection').style.display = 'none';
+  } else {
+    document.getElementById('allSection').style.display = 'none';
+    document.getElementById('filterSection').style.display = '';
+    document.getElementById('filterGrid').innerHTML = products[type].map(renderCard).join('');
+    document.getElementById('itemCount').textContent = products[type].length + ' items';
+  }
+}
+
+function updateItemCount() {
+  let total = Object.values(products).reduce((s,a) => s + a.length, 0);
+  document.getElementById('itemCount').textContent = total + ' items';
+}
+
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  let t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+renderAll();
+updateCartBadge();
+</script>
+</body>
+</html>

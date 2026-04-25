@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Wear Collection — LuxeMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg:#07070f; --surface:#0f0f1c; --surface2:#161628; --border:#1e1e35;
+    --accent:#c0872f; --accent2:#e4a845; --purple:#7c3aed; --text:#f1f0ff; --muted:#6b7280;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); }
+
+  /* NAV */
+  .navbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 36px; background:var(--surface); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:100;
+  }
+  .logo {
+    font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    text-decoration:none;
+  }
+  .nav-right { display:flex; gap:10px; align-items:center; }
+  .nav-btn {
+    padding:9px 18px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--text); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; cursor:pointer; transition:0.2s; text-decoration:none;
+    display:flex; align-items:center; gap:7px;
+  }
+  .nav-btn:hover { background:var(--border); }
+  .cart-btn { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; position:relative; }
+  .cart-count {
+    position:absolute; top:-6px; right:-6px; width:18px; height:18px;
+    background:#ef4444; border-radius:50%; font-size:0.65rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center; border:2px solid var(--surface);
+  }
+
+  /* HERO */
+  .hero {
+    position:relative; overflow:hidden; height:360px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:linear-gradient(135deg,#1a0a02,#2a1205,#0d0009);
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80') center/cover;
+    opacity:0.25;
+  }
+  .hero-content { position:relative; z-index:1; }
+  .hero-tag {
+    display:inline-block; padding:5px 16px; border-radius:50px;
+    background:rgba(228,168,69,0.2); border:1px solid rgba(228,168,69,0.4);
+    color:var(--accent2); font-size:0.78rem; font-weight:600; letter-spacing:0.1em;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+  .hero-title {
+    font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; margin-bottom:8px;
+    background:linear-gradient(135deg,#fff,var(--accent2),#fff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .hero-sub { color:rgba(255,255,255,0.6); font-size:1rem; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display:flex; gap:10px; padding:24px 36px; flex-wrap:wrap; align-items:center;
+    border-bottom:1px solid var(--border); background:var(--surface);
+  }
+  .filter-btn {
+    padding:9px 20px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; cursor:pointer; transition:0.2s; font-weight:500;
+  }
+  .filter-btn:hover { border-color:var(--accent); color:var(--accent2); }
+  .filter-btn.active {
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    border:none; color:white; font-weight:600;
+  }
+  .item-count { margin-left:auto; font-size:0.82rem; color:var(--muted); }
+
+  /* GRID */
+  .section { padding:32px 36px; }
+  .section-title {
+    font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:700; margin-bottom:4px;
+  }
+  .section-sub { color:var(--muted); font-size:0.85rem; margin-bottom:24px; }
+  .products-grid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px;
+  }
+
+  /* CARD */
+  .product-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    overflow:hidden; transition:0.3s; cursor:pointer;
+  }
+  .product-card:hover { transform:translateY(-5px); border-color:rgba(228,168,69,0.3); box-shadow:0 16px 40px rgba(0,0,0,0.3); }
+  .card-img-wrap { position:relative; overflow:hidden; }
+  .product-card img { width:100%; height:280px; object-fit:cover; transition:0.4s; display:block; }
+  .product-card:hover img { transform:scale(1.06); }
+  .badge {
+    position:absolute; top:12px; left:12px; padding:4px 10px; border-radius:20px;
+    font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .badge-sale { background:#ef4444; color:white; }
+  .badge-hot { background:var(--accent); color:white; }
+  .badge-new { background:#7c3aed; color:white; }
+  .badge-trend { background:#0891b2; color:white; }
+  .wish-btn {
+    position:absolute; top:12px; right:12px; width:36px; height:36px;
+    border-radius:50%; background:rgba(7,7,15,0.7); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:0.2s; font-size:0.9rem; color:var(--muted);
+  }
+  .wish-btn:hover, .wish-btn.wishlisted { color:#ef4444; border-color:#ef4444; }
+  .prod-info { padding:16px; }
+  .prod-brand { font-size:0.72rem; color:var(--accent2); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
+  .prod-name { font-size:0.95rem; font-weight:600; margin-bottom:10px; line-height:1.4; }
+  .price-row { display:flex; align-items:baseline; gap:8px; margin-bottom:14px; }
+  .price { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; color:var(--accent2); }
+  .original { font-size:0.8rem; color:var(--muted); text-decoration:line-through; }
+  .discount { font-size:0.75rem; font-weight:700; color:#10b981; }
+  .rating-row { display:flex; align-items:center; gap:6px; margin-bottom:14px; }
+  .stars { color:var(--accent2); font-size:0.75rem; }
+  .rating-num { font-size:0.78rem; color:var(--muted); }
+  .add-cart-btn {
+    width:100%; padding:11px; border:none; border-radius:12px; cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.88rem; transition:0.2s;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .add-cart-btn:hover { opacity:0.9; transform:translateY(-1px); }
+  .add-cart-btn.added { background:linear-gradient(135deg,#10b981,#059669); }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:28px; right:28px; background:var(--surface2);
+    border:1px solid var(--accent); border-radius:14px; padding:14px 20px;
+    display:flex; align-items:center; gap:10px; font-size:0.9rem;
+    box-shadow:0 8px 30px rgba(0,0,0,0.4); transform:translateY(20px);
+    opacity:0; transition:0.3s; z-index:999; pointer-events:none;
+  }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  @media(max-width:700px){
+    .navbar{padding:14px 20px;} .hero{height:260px;} .hero-title{font-size:2rem;}
+    .filter-bar{padding:16px 20px;} .section{padding:24px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <a href="index.html" class="logo">LuxeMart</a>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="nav-btn" onclick="window.location.href='wishlist.html'"><i class="fa-regular fa-heart"></i></button>
+    <button class="nav-btn cart-btn" onclick="window.location.href='cart.html'">
+      <i class="fa-solid fa-bag-shopping"></i> Cart
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✨ Student Specials</div>
+    <div class="hero-title">🎓 College Wear Collection</div>
+    <div class="hero-sub">Trendy styles for campus life</div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="showSection('all',this)">🌟 All</button>
+  <button class="filter-btn" onclick="showSection('men',this)">👨 Men</button>
+  <button class="filter-btn" onclick="showSection('women',this)">👩 Women</button>
+  <button class="filter-btn" onclick="showSection('shoes',this)">👟 Shoes</button>
+  
+  <span class="item-count" id="itemCount">24 items</span>
+</div>
+
+<!-- ALL PRODUCTS (shown by default, hidden per filter) -->
+<div class="section">
+  <div id="allSection">
+    <div class="section-title">👨 Men's College Collection</div>
+    <div class="section-sub">Sherwanis, suits & more for the groom</div>
+    <div class="products-grid" id="menGrid"></div>
+    <div class="section-title" style="margin-top:36px">👩 Women's College Collection</div>
+    <div class="section-sub">Lehengas, sarees & bridal essentials</div>
+    <div class="products-grid" id="womenGrid"></div>
+    <div class="section-title" style="margin-top:36px">👟 College Shoes</div>
+    <div class="section-sub">From mojaris to stilettos</div>
+    <div class="products-grid" id="shoesGrid"></div>
+    
+  </div>
+  <div id="filterSection" style="display:none">
+    <div class="products-grid" id="filterGrid"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check" style="color:#10b981"></i>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<script>
+const products = {
+  men: [
+    {"id": "cm1", "name": "White Hoodie + Black Jeans", "brand": "LuxeMart", "price": 1499, "original": 2279, "discount": 34, "rating": 4.2, "reviews": 2358, "badge": "", "img": "data:image/jpeg;base64,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"},
+    {"id": "cm2", "name": "Black Shirt + Grey Pant", "brand": "UrbanStyle", "price": 1699, "original": 2542, "discount": 33, "rating": 4.6, "reviews": 455, "badge": "new", "img": "https://images.unsplash.com/photo-1627976238251-a0191b91145b?w=600"},
+    {"id": "cm3", "name": "Oversized Tee + Jeans", "brand": "Nike", "price": 1299, "original": 2594, "discount": 49, "rating": 4.3, "reviews": 2818, "badge": "new", "img": "https://images.unsplash.com/photo-1674075872359-a174bc7ed420?w=600"},
+    {"id": "cm4", "name": "Blue Hoodie + Jeans", "brand": "Nike", "price": 1599, "original": 2775, "discount": 42, "rating": 4.0, "reviews": 2020, "badge": "", "img": "https://plus.unsplash.com/premium_photo-1669125725661-24057fb671b9?w=600"},
+    {"id": "cm5", "name": "Grey Sweatshirt + Jogger", "brand": "Zara", "price": 1399, "original": 2451, "discount": 42, "rating": 4.2, "reviews": 872, "badge": "hot", "img": "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=500"},
+    {"id": "cm6", "name": "White Shirt + Black Pant", "brand": "TrendSetter", "price": 1699, "original": 2470, "discount": 31, "rating": 4.9, "reviews": 1909, "badge": "", "img": "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=500"},
+    {"id": "cm7", "name": "Denim Jacket + Tee", "brand": "H&M", "price": 1899, "original": 3633, "discount": 47, "rating": 4.2, "reviews": 766, "badge": "", "img": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500"},
+    {"id": "cm8", "name": "Black Hoodie + Cargo", "brand": "Puma", "price": 1499, "original": 2263, "discount": 33, "rating": 4.5, "reviews": 2236, "badge": "", "img": "https://images.unsplash.com/photo-1590759483822-b2fee5aa6bd3?w=600"},
+    {"id": "cm9", "name": "Oversized Tee + Shorts", "brand": "Puma", "price": 999, "original": 1414, "discount": 29, "rating": 4.3, "reviews": 346, "badge": "hot", "img": "https://images.unsplash.com/photo-1514996937319-344454492b37?w=500"},
+    {"id": "cm10", "name": "Brown Hoodie + Denim", "brand": "UrbanStyle", "price": 1599, "original": 2889, "discount": 44, "rating": 4.6, "reviews": 2252, "badge": "trend", "img": "https://images.unsplash.com/photo-1604272689085-4ccabf67ce35?w=600"},
+  ],
+  women: [
+    {"id": "cw1", "name": "Crop Top + Mom Jeans", "brand": "UrbanStyle", "price": 1399, "original": 2101, "discount": 33, "rating": 4.6, "reviews": 1604, "badge": "hot", "img": "https://www.shutterstock.com/image-photo/fresh-playful-sleeveless-white-crop-600nw-2676899049.jpg"},
+    {"id": "cw2", "name": "Oversized Hoodie + Sneaker", "brand": "Nike", "price": 1599, "original": 2996, "discount": 46, "rating": 4.4, "reviews": 1036, "badge": "sale", "img": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500"},
+    {"id": "cw3", "name": "White Top + Black Jeans", "brand": "Zara", "price": 1199, "original": 2273, "discount": 47, "rating": 4.7, "reviews": 500, "badge": "new", "img": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500"},
+    {"id": "cw4", "name": "Pink Hoodie + Jeans", "brand": "Zara", "price": 1499, "original": 2305, "discount": 34, "rating": 4.3, "reviews": 2720, "badge": "new", "img": "https://i.pinimg.com/736x/db/75/60/db75600dafb78f36e9f27798646db27c.jpg"},
+    {"id": "cw5", "name": "Black Top + Blue Denim", "brand": "Zara", "price": 1199, "original": 2071, "discount": 42, "rating": 4.1, "reviews": 2731, "badge": "", "img": "https://www.instyle.com/thmb/6rcusuE4et1ILN3EqH4RJSWI4rg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-2158635839-2c26f051f79347759adca06ba6a1d9a3.jpg"},
+    {"id": "cw6", "name": "White Tee + Trouser", "brand": "H&M", "price": 1299, "original": 1840, "discount": 29, "rating": 4.0, "reviews": 991, "badge": "trend", "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR-FXbjr5PgtxALBAe443Hy5XXFTTSFSZyRyVnmdza5Oyf7PQk9ZerBZJhDtLrgBjbOe41IpqibyM6WQIVln8VFaY-pHyFsnPH0l4lyOCfFv_x9YDdnV7CA6Ukp8tvn1iU3NQf9tYw&usqp=CAc"},
+    {"id": "cw7", "name": "Crop Hoodie + Sneaker", "brand": "LuxeMart", "price": 1599, "original": 2722, "discount": 41, "rating": 4.2, "reviews": 505, "badge": "sale", "img": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500"},
+    {"id": "cw8", "name": "Casual Kurti + Jeans", "brand": "TrendSetter", "price": 1399, "original": 2365, "discount": 40, "rating": 4.5, "reviews": 350, "badge": "sale", "img": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSnUhAPJH0mD5ztWAUX6-F0iZTJWMEoP7VJndVH1gaaZdYhgIjfMDVBbcvK8X8D2yXbkbIaDxc4vvZ1WtOaHMuKy5LK8JlJorBGLLkk8UpJ9ZFhum2u6HGcW-dSSudPKYI3cY7jzt6f&usqp=CAc"},
+    {"id": "cw9", "name": "Oversized Tee + Cargo", "brand": "LuxeMart", "price": 1199, "original": 2078, "discount": 42, "rating": 4.6, "reviews": 1623, "badge": "trend", "img": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500"},
+    {"id": "cw10", "name": "White Shirt + Pant", "brand": "Zara", "price": 1499, "original": 2296, "discount": 34, "rating": 4.1, "reviews": 2815, "badge": "hot", "img": "data:image/webp;base64,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"},
+  ],
+  shoes: [
+    {"id": "cs1", "name": "Nike White Shoes", "brand": "Reebok", "price": 2499, "original": 3552, "discount": 29, "rating": 4.8, "reviews": 1209, "badge": "trend", "img": "https://www.jiomart.com/images/product/original/rvkiw0hirr/birde-stylish-comfortable-seankers-regular-wear-white-shoes-for-men-product-images-rvkiw0hirr-0-202307261607.jpg?im=Resize=(1000,1000)"},
+    {"id": "cs2", "name": "Adidas Black Sneakers", "brand": "Reebok", "price": 2899, "original": 5606, "discount": 48, "rating": 4.5, "reviews": 1887, "badge": "trend", "img": "https://assets.adidas.com/images/w_383,h_383,f_auto,q_auto,fl_lossy,c_fill,g_auto/ee99b4b9bde74f30a933a8bf011911ae_9366/Samba_OG_Shoes_Black_B75807_00_plp_standard.jpg"},
+    {"id": "cs3", "name": "Puma College Shoes", "brand": "Nike", "price": 2199, "original": 3134, "discount": 29, "rating": 4.6, "reviews": 873, "badge": "trend", "img": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500"},
+  ],
+};
+
+// ── Cart ──
+
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+function updateCartBadge() { document.getElementById('cartCount').textContent = cart.length; }
+
+function addToCart(id, btn) {
+  let allProducts = [...products.men, ...products.women, ...products.shoes, ];
+  let item = allProducts.find(p => p.id === id);
+  if(!item) return;
+  let exists = cart.find(c => c.id === id);
+  if(!exists) {
+    cart.push({ id: item.id, name: item.name, price: item.price, img: item.img });
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  btn.innerHTML = '<i class="fa-solid fa-check"></i> Added!';
+  btn.classList.add('added');
+  updateCartBadge();
+  showToast(item.name + ' added to cart!');
+}
+
+// ── Wishlist ──
+let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+function toggleWish(id, btn) {
+  let allProducts = [...products.men, ...products.women, ...products.shoes, ];
+  let item = allProducts.find(p => p.id === id);
+  let idx = wishlist.findIndex(w => w.id === id);
+  if(idx === -1) {
+    wishlist.push({ id: item.id, name: item.name, price: item.price, image: item.img });
+    btn.classList.add('wishlisted');
+    showToast('Added to wishlist ❤️');
+  } else {
+    wishlist.splice(idx, 1);
+    btn.classList.remove('wishlisted');
+    showToast('Removed from wishlist');
+  }
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+}
+
+// ── Render card ──
+function renderCard(p) {
+  let stars = Array(Math.round(p.rating)).fill('<i class="fa-solid fa-star"></i>').join('') +
+              Array(5-Math.round(p.rating)).fill('<i class="fa-regular fa-star"></i>').join('');
+  let inWish = wishlist.some(w => w.id === p.id);
+  let inCart = cart.some(c => c.id === p.id);
+  return `
+    <div class="product-card">
+      <div class="card-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500'">
+        ${p.badge ? `<span class="badge badge-${p.badge}">${p.badge==='hot'?'🔥 Hot':p.badge==='sale'?'Sale':p.badge==='new'?'✨ New':p.badge==='trend'?'📈 Trend':''}</span>` : ''}
+        <button class="wish-btn ${inWish?'wishlisted':''}" id="wish-${p.id}" onclick="toggleWish('${p.id}',this)">
+          <i class="fa-${inWish?'solid':'regular'} fa-heart"></i>
+        </button>
+      </div>
+      <div class="prod-info">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="price-row">
+          <span class="price">₹${p.price.toLocaleString()}</span>
+          <span class="original">₹${p.original.toLocaleString()}</span>
+          <span class="discount">${p.discount}% off</span>
+        </div>
+        <div class="rating-row">
+          <span class="stars">${stars}</span>
+          <span class="rating-num">${p.rating} (${p.reviews.toLocaleString()})</span>
+        </div>
+        <button class="add-cart-btn ${inCart?'added':''}" id="cart-${p.id}" onclick="addToCart('${p.id}',this)">
+          <i class="fa-solid fa-${inCart?'check':'bag-shopping'}"></i>
+          ${inCart ? 'Added!' : 'Add to Cart'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ── Sections ──
+function renderAll() {
+  document.getElementById('menGrid').innerHTML = products.men.map(renderCard).join('');
+  document.getElementById('womenGrid').innerHTML = products.women.map(renderCard).join('');
+  document.getElementById('shoesGrid').innerHTML = products.shoes.map(renderCard).join('');
+  
+  updateItemCount();
+}
+
+function showSection(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(type === 'all') {
+    document.getElementById('allSection').style.display = '';
+    document.getElementById('filterSection').style.display = 'none';
+  } else {
+    document.getElementById('allSection').style.display = 'none';
+    document.getElementById('filterSection').style.display = '';
+    document.getElementById('filterGrid').innerHTML = products[type].map(renderCard).join('');
+    document.getElementById('itemCount').textContent = products[type].length + ' items';
+  }
+}
+
+function updateItemCount() {
+  let total = Object.values(products).reduce((s,a) => s + a.length, 0);
+  document.getElementById('itemCount').textContent = total + ' items';
+}
+
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  let t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+renderAll();
+updateCartBadge();
+</script>
+</body>
+</html>

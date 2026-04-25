@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Party Wear Collection — LuxeMart</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg:#07070f; --surface:#0f0f1c; --surface2:#161628; --border:#1e1e35;
+    --accent:#c0872f; --accent2:#e4a845; --purple:#7c3aed; --text:#f1f0ff; --muted:#6b7280;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); }
+
+  /* NAV */
+  .navbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 36px; background:var(--surface); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:100;
+  }
+  .logo {
+    font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800;
+    background:linear-gradient(135deg,var(--accent2),var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    text-decoration:none;
+  }
+  .nav-right { display:flex; gap:10px; align-items:center; }
+  .nav-btn {
+    padding:9px 18px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--text); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; cursor:pointer; transition:0.2s; text-decoration:none;
+    display:flex; align-items:center; gap:7px;
+  }
+  .nav-btn:hover { background:var(--border); }
+  .cart-btn { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; position:relative; }
+  .cart-count {
+    position:absolute; top:-6px; right:-6px; width:18px; height:18px;
+    background:#ef4444; border-radius:50%; font-size:0.65rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center; border:2px solid var(--surface);
+  }
+
+  /* HERO */
+  .hero {
+    position:relative; overflow:hidden; height:360px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:linear-gradient(135deg,#1a0a02,#2a1205,#0d0009);
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background:url('https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=1400&q=80') center/cover;
+    opacity:0.25;
+  }
+  .hero-content { position:relative; z-index:1; }
+  .hero-tag {
+    display:inline-block; padding:5px 16px; border-radius:50px;
+    background:rgba(228,168,69,0.2); border:1px solid rgba(228,168,69,0.4);
+    color:var(--accent2); font-size:0.78rem; font-weight:600; letter-spacing:0.1em;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+  .hero-title {
+    font-family:'Syne',sans-serif; font-size:3rem; font-weight:800; margin-bottom:8px;
+    background:linear-gradient(135deg,#fff,var(--accent2),#fff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .hero-sub { color:rgba(255,255,255,0.6); font-size:1rem; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display:flex; gap:10px; padding:24px 36px; flex-wrap:wrap; align-items:center;
+    border-bottom:1px solid var(--border); background:var(--surface);
+  }
+  .filter-btn {
+    padding:9px 20px; border-radius:50px; border:1px solid var(--border);
+    background:transparent; color:var(--muted); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; cursor:pointer; transition:0.2s; font-weight:500;
+  }
+  .filter-btn:hover { border-color:var(--accent); color:var(--accent2); }
+  .filter-btn.active {
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    border:none; color:white; font-weight:600;
+  }
+  .item-count { margin-left:auto; font-size:0.82rem; color:var(--muted); }
+
+  /* GRID */
+  .section { padding:32px 36px; }
+  .section-title {
+    font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:700; margin-bottom:4px;
+  }
+  .section-sub { color:var(--muted); font-size:0.85rem; margin-bottom:24px; }
+  .products-grid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px;
+  }
+
+  /* CARD */
+  .product-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    overflow:hidden; transition:0.3s; cursor:pointer;
+  }
+  .product-card:hover { transform:translateY(-5px); border-color:rgba(228,168,69,0.3); box-shadow:0 16px 40px rgba(0,0,0,0.3); }
+  .card-img-wrap { position:relative; overflow:hidden; }
+  .product-card img { width:100%; height:280px; object-fit:cover; transition:0.4s; display:block; }
+  .product-card:hover img { transform:scale(1.06); }
+  .badge {
+    position:absolute; top:12px; left:12px; padding:4px 10px; border-radius:20px;
+    font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .badge-sale { background:#ef4444; color:white; }
+  .badge-hot { background:var(--accent); color:white; }
+  .badge-new { background:#7c3aed; color:white; }
+  .badge-trend { background:#0891b2; color:white; }
+  .wish-btn {
+    position:absolute; top:12px; right:12px; width:36px; height:36px;
+    border-radius:50%; background:rgba(7,7,15,0.7); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:0.2s; font-size:0.9rem; color:var(--muted);
+  }
+  .wish-btn:hover, .wish-btn.wishlisted { color:#ef4444; border-color:#ef4444; }
+  .prod-info { padding:16px; }
+  .prod-brand { font-size:0.72rem; color:var(--accent2); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
+  .prod-name { font-size:0.95rem; font-weight:600; margin-bottom:10px; line-height:1.4; }
+  .price-row { display:flex; align-items:baseline; gap:8px; margin-bottom:14px; }
+  .price { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; color:var(--accent2); }
+  .original { font-size:0.8rem; color:var(--muted); text-decoration:line-through; }
+  .discount { font-size:0.75rem; font-weight:700; color:#10b981; }
+  .rating-row { display:flex; align-items:center; gap:6px; margin-bottom:14px; }
+  .stars { color:var(--accent2); font-size:0.75rem; }
+  .rating-num { font-size:0.78rem; color:var(--muted); }
+  .add-cart-btn {
+    width:100%; padding:11px; border:none; border-radius:12px; cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.88rem; transition:0.2s;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .add-cart-btn:hover { opacity:0.9; transform:translateY(-1px); }
+  .add-cart-btn.added { background:linear-gradient(135deg,#10b981,#059669); }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:28px; right:28px; background:var(--surface2);
+    border:1px solid var(--accent); border-radius:14px; padding:14px 20px;
+    display:flex; align-items:center; gap:10px; font-size:0.9rem;
+    box-shadow:0 8px 30px rgba(0,0,0,0.4); transform:translateY(20px);
+    opacity:0; transition:0.3s; z-index:999; pointer-events:none;
+  }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  @media(max-width:700px){
+    .navbar{padding:14px 20px;} .hero{height:260px;} .hero-title{font-size:2rem;}
+    .filter-bar{padding:16px 20px;} .section{padding:24px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <a href="index.html" class="logo">LuxeMart</a>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="nav-btn" onclick="window.location.href='wishlist.html'"><i class="fa-regular fa-heart"></i></button>
+    <button class="nav-btn cart-btn" onclick="window.location.href='cart.html'">
+      <i class="fa-solid fa-bag-shopping"></i> Cart
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✨ Night Out</div>
+    <div class="hero-title">🎉 Party Wear Collection</div>
+    <div class="hero-sub">Turn heads wherever you go</div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="showSection('all',this)">🌟 All</button>
+  <button class="filter-btn" onclick="showSection('men',this)">👨 Men</button>
+  <button class="filter-btn" onclick="showSection('women',this)">👩 Women</button>
+  <button class="filter-btn" onclick="showSection('shoes',this)">👟 Shoes</button>
+  
+  <span class="item-count" id="itemCount">24 items</span>
+</div>
+
+<!-- ALL PRODUCTS (shown by default, hidden per filter) -->
+<div class="section">
+  <div id="allSection">
+    <div class="section-title">👨 Men's Party Collection</div>
+    <div class="section-sub">Sherwanis, suits & more for the groom</div>
+    <div class="products-grid" id="menGrid"></div>
+    <div class="section-title" style="margin-top:36px">👩 Women's Party Collection</div>
+    <div class="section-sub">Lehengas, sarees & bridal essentials</div>
+    <div class="products-grid" id="womenGrid"></div>
+    <div class="section-title" style="margin-top:36px">👟 Party Shoes</div>
+    <div class="section-sub">From mojaris to stilettos</div>
+    <div class="products-grid" id="shoesGrid"></div>
+    
+  </div>
+  <div id="filterSection" style="display:none">
+    <div class="products-grid" id="filterGrid"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-check" style="color:#10b981"></i>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<script>
+const products = {
+  men: [
+    {"id": "pm1", "name": "Black Blazer + Pant", "brand": "TrendSetter", "price": 3999, "original": 7177, "discount": 44, "rating": 4.8, "reviews": 2159, "badge": "", "img": "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc"},
+    {"id": "pm2", "name": "White Shirt + Black Pant", "brand": "UrbanStyle", "price": 2599, "original": 4883, "discount": 46, "rating": 4.2, "reviews": 1668, "badge": "sale", "img": "https://images.unsplash.com/photo-1519345182560-3f2917c472ef"},
+    {"id": "pm3", "name": "Party Suit Combo", "brand": "Nike", "price": 4599, "original": 7966, "discount": 42, "rating": 4.1, "reviews": 2085, "badge": "trend", "img": "https://images.unsplash.com/photo-1523398002811-999ca8dec234"},
+    {"id": "pm4", "name": "Luxury Blazer Set", "brand": "Puma", "price": 4999, "original": 8900, "discount": 43, "rating": 4.7, "reviews": 2115, "badge": "", "img": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f"},
+    {"id": "pm5", "name": "Black Shirt Combo", "brand": "Zara", "price": 2299, "original": 3671, "discount": 37, "rating": 4.1, "reviews": 2132, "badge": "new", "img": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"},
+    {"id": "pm6", "name": "Premium Party Suit", "brand": "Puma", "price": 5299, "original": 10064, "discount": 47, "rating": 4.0, "reviews": 425, "badge": "hot", "img": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d"},
+    {"id": "pm7", "name": "Grey Blazer Combo", "brand": "Nike", "price": 3899, "original": 6884, "discount": 43, "rating": 4.8, "reviews": 632, "badge": "sale", "img": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce"},
+    {"id": "pm8", "name": "Royal Party Look", "brand": "H&M", "price": 5499, "original": 9158, "discount": 39, "rating": 4.0, "reviews": 1753, "badge": "trend", "img": "https://images.unsplash.com/photo-1504593811423-6dd665756598"},
+  ],
+  women: [
+    {"id": "pw1", "name": "Black Party Dress", "brand": "UrbanStyle", "price": 3499, "original": 5629, "discount": 37, "rating": 4.8, "reviews": 1192, "badge": "sale", "img": "https://images.unsplash.com/photo-1483985988355-763728e1935b"},
+    {"id": "pw2", "name": "Red Gown", "brand": "TrendSetter", "price": 4299, "original": 6712, "discount": 35, "rating": 4.5, "reviews": 1397, "badge": "", "img": "https://images.unsplash.com/photo-1496747611176-843222e1e57c"},
+    {"id": "pw3", "name": "Luxury Party Dress", "brand": "LuxeMart", "price": 4599, "original": 7681, "discount": 40, "rating": 4.4, "reviews": 1283, "badge": "new", "img": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f"},
+    {"id": "pw4", "name": "White Party Top", "brand": "Zara", "price": 2299, "original": 3613, "discount": 36, "rating": 4.8, "reviews": 1056, "badge": "trend", "img": "https://images.unsplash.com/photo-1529139574466-a303027c1d8b"},
+    {"id": "pw5", "name": "Stylish Black Combo", "brand": "UrbanStyle", "price": 3299, "original": 5254, "discount": 37, "rating": 4.5, "reviews": 337, "badge": "", "img": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91"},
+    {"id": "pw6", "name": "Mini Party Dress", "brand": "LuxeMart", "price": 2999, "original": 4287, "discount": 30, "rating": 4.4, "reviews": 128, "badge": "", "img": "https://images.unsplash.com/photo-1509631179647-0177331693ae"},
+    {"id": "pw7", "name": "Pink Gown", "brand": "Puma", "price": 3899, "original": 7722, "discount": 49, "rating": 4.2, "reviews": 745, "badge": "sale", "img": "https://images.unsplash.com/photo-1517841905240-472988babdf9"},
+    {"id": "pw8", "name": "Premium Evening Dress", "brand": "H&M", "price": 4999, "original": 7910, "discount": 36, "rating": 4.2, "reviews": 2587, "badge": "", "img": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1"},
+  ],
+  shoes: [
+    {"id": "ps1", "name": "Black Party Shoes", "brand": "Clarks", "price": 2999, "original": 5756, "discount": 47, "rating": 4.9, "reviews": 308, "badge": "sale", "img": "https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
+    {"id": "ps2", "name": "White Sneakers", "brand": "Puma", "price": 2599, "original": 4990, "discount": 47, "rating": 4.8, "reviews": 353, "badge": "new", "img": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"},
+    {"id": "ps3", "name": "Women Heel Sandal", "brand": "Adidas", "price": 2299, "original": 3372, "discount": 31, "rating": 4.9, "reviews": 2463, "badge": "trend", "img": "https://images.unsplash.com/photo-1560769629-975ec94e6a86"},
+    {"id": "ps4", "name": "Luxury Heel", "brand": "Nike", "price": 3199, "original": 5274, "discount": 39, "rating": 4.6, "reviews": 1957, "badge": "new", "img": "https://images.unsplash.com/photo-1600269452121-4f2416e55c28"},
+    {"id": "ps5", "name": "Premium Party Shoe", "brand": "Nike", "price": 3499, "original": 5300, "discount": 33, "rating": 4.6, "reviews": 2156, "badge": "hot", "img": "https://images.unsplash.com/photo-1605348532760-6753d2c43329"},
+    {"id": "ps6", "name": "Classic White Shoe", "brand": "Nike", "price": 2899, "original": 4314, "discount": 32, "rating": 4.8, "reviews": 943, "badge": "new", "img": "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb"},
+    {"id": "ps7", "name": "Premium Sneaker", "brand": "Puma", "price": 3299, "original": 5829, "discount": 43, "rating": 4.8, "reviews": 2924, "badge": "", "img": "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111"},
+    {"id": "ps8", "name": "Party Leather Shoe", "brand": "Clarks", "price": 3599, "original": 6329, "discount": 43, "rating": 4.0, "reviews": 2564, "badge": "trend", "img": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2"},
+  ],
+};
+
+// ── Cart ──
+
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+function updateCartBadge() { document.getElementById('cartCount').textContent = cart.length; }
+
+function addToCart(id, btn) {
+  let allProducts = [...products.men, ...products.women, ...products.shoes, ];
+  let item = allProducts.find(p => p.id === id);
+  if(!item) return;
+  let exists = cart.find(c => c.id === id);
+  if(!exists) {
+    cart.push({ id: item.id, name: item.name, price: item.price, img: item.img });
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  btn.innerHTML = '<i class="fa-solid fa-check"></i> Added!';
+  btn.classList.add('added');
+  updateCartBadge();
+  showToast(item.name + ' added to cart!');
+}
+
+// ── Wishlist ──
+let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+function toggleWish(id, btn) {
+  let allProducts = [...products.men, ...products.women, ...products.shoes, ];
+  let item = allProducts.find(p => p.id === id);
+  let idx = wishlist.findIndex(w => w.id === id);
+  if(idx === -1) {
+    wishlist.push({ id: item.id, name: item.name, price: item.price, image: item.img });
+    btn.classList.add('wishlisted');
+    showToast('Added to wishlist ❤️');
+  } else {
+    wishlist.splice(idx, 1);
+    btn.classList.remove('wishlisted');
+    showToast('Removed from wishlist');
+  }
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+}
+
+// ── Render card ──
+function renderCard(p) {
+  let stars = Array(Math.round(p.rating)).fill('<i class="fa-solid fa-star"></i>').join('') +
+              Array(5-Math.round(p.rating)).fill('<i class="fa-regular fa-star"></i>').join('');
+  let inWish = wishlist.some(w => w.id === p.id);
+  let inCart = cart.some(c => c.id === p.id);
+  return `
+    <div class="product-card">
+      <div class="card-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500'">
+        ${p.badge ? `<span class="badge badge-${p.badge}">${p.badge==='hot'?'🔥 Hot':p.badge==='sale'?'Sale':p.badge==='new'?'✨ New':p.badge==='trend'?'📈 Trend':''}</span>` : ''}
+        <button class="wish-btn ${inWish?'wishlisted':''}" id="wish-${p.id}" onclick="toggleWish('${p.id}',this)">
+          <i class="fa-${inWish?'solid':'regular'} fa-heart"></i>
+        </button>
+      </div>
+      <div class="prod-info">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="price-row">
+          <span class="price">₹${p.price.toLocaleString()}</span>
+          <span class="original">₹${p.original.toLocaleString()}</span>
+          <span class="discount">${p.discount}% off</span>
+        </div>
+        <div class="rating-row">
+          <span class="stars">${stars}</span>
+          <span class="rating-num">${p.rating} (${p.reviews.toLocaleString()})</span>
+        </div>
+        <button class="add-cart-btn ${inCart?'added':''}" id="cart-${p.id}" onclick="addToCart('${p.id}',this)">
+          <i class="fa-solid fa-${inCart?'check':'bag-shopping'}"></i>
+          ${inCart ? 'Added!' : 'Add to Cart'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ── Sections ──
+function renderAll() {
+  document.getElementById('menGrid').innerHTML = products.men.map(renderCard).join('');
+  document.getElementById('womenGrid').innerHTML = products.women.map(renderCard).join('');
+  document.getElementById('shoesGrid').innerHTML = products.shoes.map(renderCard).join('');
+  
+  updateItemCount();
+}
+
+function showSection(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(type === 'all') {
+    document.getElementById('allSection').style.display = '';
+    document.getElementById('filterSection').style.display = 'none';
+  } else {
+    document.getElementById('allSection').style.display = 'none';
+    document.getElementById('filterSection').style.display = '';
+    document.getElementById('filterGrid').innerHTML = products[type].map(renderCard).join('');
+    document.getElementById('itemCount').textContent = products[type].length + ' items';
+  }
+}
+
+function updateItemCount() {
+  let total = Object.values(products).reduce((s,a) => s + a.length, 0);
+  document.getElementById('itemCount').textContent = total + ' items';
+}
+
+function showToast(msg) {
+  document.getElementById('toastMsg').textContent = msg;
+  let t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+renderAll();
+updateCartBadge();
+</script>
+</body>
+</html>
