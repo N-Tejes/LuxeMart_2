@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
 
@@ -17,6 +18,9 @@ const io = new Server(server, {
 
 app.use(cors());
 app.use(express.json());
+
+// ── Serve Frontend Static Files ─────────────────────────────
+app.use(express.static(path.join(__dirname, '..', 'LuxeMart-main')));
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretluxemartkey';
 
@@ -282,6 +286,11 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
+});
+
+// ── Catch-all: serve index.html for any non-API route ───────
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'LuxeMart-main', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
