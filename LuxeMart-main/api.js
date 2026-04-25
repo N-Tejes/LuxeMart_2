@@ -3,7 +3,7 @@
  * Connects the frontend to the Node.js Express backend
  */
 
-const API_BASE = 'https://luxemart-2.onrender.com/api/v1';
+const API_BASE = 'https://luxemart-2-875l.onrender.com/api/v1';
 
 // ── Token management ────────────────────────────────────────
 const getToken = () => localStorage.getItem('luxemart_token');
@@ -112,7 +112,7 @@ const ChatAPI = {
       console.warn('Socket.IO not loaded');
       return null;
     }
-    chatSocket = io('https://luxemart-2.onrender.com');
+    chatSocket = io('https://luxemart-2-875l.onrender.com');
     chatSocket.emit('join_room', { username, room });
     return chatSocket;
   },
@@ -138,7 +138,7 @@ function startLiveStats(callback) {
 // ═══════════════════════════════════════════════════════════
 async function checkBackendStatus() {
   try {
-    const res = await fetch('https://luxemart-2.onrender.com/api/health', { signal: AbortSignal.timeout(3000) });
+    const res = await fetch('https://luxemart-2-875l.onrender.com/api/health', { signal: AbortSignal.timeout(3000) });
     return res.ok;
   } catch {
     return false;
